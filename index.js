@@ -3,6 +3,7 @@ const ip = require("ip");
 const express = require("express");
 
 const company = require("./routes/company");
+const agent = require("./routes/agent");
 
 mongoose
   .connect("mongodb://localhost/IPM", {
@@ -14,10 +15,12 @@ mongoose
   .catch((err) => console.error("Could not connect to MongoDB..."));
 
 const app = express();
+app.use(express.json());
 
 const port = process.env.PORT || 10443;
 app.listen(port, () =>
   console.log(`Server started http://${ip.address()}:${port}`)
 );
 
-app.use("/v1/api/companies", company);
+app.use("/v1/api/company", company);
+app.use("/v1/api/agent", agent);
