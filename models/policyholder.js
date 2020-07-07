@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Joi = require("@hapi/joi");
 
-const agentSchema = new mongoose.Schema({
+const policyholderSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -15,29 +15,34 @@ const agentSchema = new mongoose.Schema({
     required: true,
     minlength: 8,
   },
-  policyholder: [
+  nric: {
+    type: String,
+    required: true,
+  },
+  policy: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Policyholder",
+      ref: "Policy",
     },
   ],
-  company: {
+  agent: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Company",
+    ref: "Agent",
   },
 });
 
-const Agent = mongoose.model("Agent", agentSchema);
+const Policyholder = mongoose.model("Policyholder", policyholderSchema);
 
-function validateAgent(Agent) {
+function validatePolicyholder(Policyholder) {
   const schema = Joi.object({
     name: Joi.string().min(1).required(),
-    companyId: Joi.string().required(),
+    agentId: Joi.string().required(),
+    nric: Joi.string().required(),
     email: Joi.string().required(),
     mobile: Joi.number().min(8).required(),
   });
-  return schema.validate(Agent);
+  return schema.validate(Policyholder);
 }
 
-exports.Agent = Agent;
-exports.validateAgent = validateAgent;
+exports.Policyholder = Policyholder;
+exports.validatePolicyholder = validatePolicyholder;

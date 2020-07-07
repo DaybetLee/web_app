@@ -21,6 +21,7 @@ router.post("/", async (req, res) => {
     email: req.body.email,
     mobile: req.body.mobile,
   });
+
   await agent.save();
   res.send(agent);
 });
@@ -57,7 +58,9 @@ router.delete("/:id", async (req, res) => {
 
 // GET ID Request
 router.get("/:id", async (req, res) => {
-  const agent = await Agent.findById(req.params.id).populate("company");
+  const agent = await Agent.findById(req.params.id).populate(
+    "company policyholder"
+  );
 
   if (!agent)
     return res.status(404).send("404 Page Not Found. Agent Not Found.");
