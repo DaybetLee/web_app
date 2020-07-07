@@ -5,6 +5,7 @@ const express = require("express");
 const company = require("./routes/company");
 const agent = require("./routes/agent");
 const policyholder = require("./routes/policyholder");
+const policy = require("./routes/policy");
 
 mongoose
   .connect("mongodb://localhost/IPM", {
@@ -26,3 +27,4 @@ app.listen(port, () =>
 app.use("/v1/api/company", company);
 app.use("/v1/api/agent", agent);
 app.use("/v1/api/policyholder", policyholder);
+app.use("/v1/api/policy", policy);

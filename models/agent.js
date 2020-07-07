@@ -33,7 +33,9 @@ function validateAgent(Agent) {
   const schema = Joi.object({
     name: Joi.string().min(1).required(),
     companyId: Joi.string().required(),
-    email: Joi.string().required(),
+    email: Joi.string()
+      .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+      .required(),
     mobile: Joi.number().min(8).required(),
   });
   return schema.validate(Agent);

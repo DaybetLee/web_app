@@ -38,7 +38,9 @@ function validatePolicyholder(Policyholder) {
     name: Joi.string().min(1).required(),
     agentId: Joi.string().required(),
     nric: Joi.string().required(),
-    email: Joi.string().required(),
+    email: Joi.string()
+      .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+      .required(),
     mobile: Joi.number().min(8).required(),
   });
   return schema.validate(Policyholder);

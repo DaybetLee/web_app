@@ -108,6 +108,7 @@ router.get("/:id", async (req, res) => {
   res.send(policyholder);
 });
 
+// Local Function
 async function addPolicyholderToAgent(agentId, policyholderId) {
   await Agent.findByIdAndUpdate(agentId, {
     $push: {
