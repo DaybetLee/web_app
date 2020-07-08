@@ -7,12 +7,6 @@ const companySchema = new mongoose.Schema({
     required: true,
     minlength: 1,
   },
-  //   agents: [
-  //     {
-  //       type: mongoose.Schema.Types.ObjectId,
-  //       ref: "Agent",
-  //     },
-  //   ],
 });
 
 const Company = mongoose.model("Company", companySchema);

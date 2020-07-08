@@ -32,7 +32,7 @@ const Agent = mongoose.model("Agent", agentSchema);
 function validateAgent(Agent) {
   const schema = Joi.object({
     name: Joi.string().min(1).required(),
-    companyId: Joi.string().required(),
+    companyId: Joi.objectId().required(),
     email: Joi.string()
       .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
       .required(),

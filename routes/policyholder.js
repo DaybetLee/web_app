@@ -20,11 +20,8 @@ router.post("/", async (req, res) => {
   const { error } = validatePolicyholder(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  try {
-    await Agent.findById(req.body.agentId);
-  } catch {
-    return res.status(400).send("Invalid AgentId.");
-  }
+  const agent = await Agent.findById(req.body.agentId);
+  if (!agent) return res.status(400).send("Invalid AgentId.");
 
   let policyholder = new Policyholder({
     name: req.body.name,
@@ -45,11 +42,8 @@ router.put("/:id", async (req, res) => {
   const { error } = validatePolicyholder(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  try {
-    await Agent.findById(req.body.agentId);
-  } catch {
-    return res.status(400).send("Invalid AgentId.");
-  }
+  const agent = await Agent.findById(req.body.agentId);
+  if (!agent) return res.status(400).send("Invalid AgentId.");
 
   await Agent.findByIdAndUpdate(
     (await Policyholder.findById(req.params.id)).agent,

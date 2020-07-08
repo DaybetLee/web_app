@@ -36,7 +36,7 @@ const Policyholder = mongoose.model("Policyholder", policyholderSchema);
 function validatePolicyholder(Policyholder) {
   const schema = Joi.object({
     name: Joi.string().min(1).required(),
-    agentId: Joi.string().required(),
+    agentId: Joi.objectId().required(),
     nric: Joi.string().required(),
     email: Joi.string()
       .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })

@@ -18,17 +18,11 @@ router.post("/", async (req, res) => {
   const { error } = validatePolicy(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  try {
-    await Policyholder.findById(req.body.policyholderId);
-  } catch {
-    return res.status(400).send("Invalid PolicyholderId.");
-  }
+  const policholder = await Policyholder.findById(req.body.policyholderId);
+  if (!policholder) return res.status(400).send("Invalid PolicyholderId.");
 
-  try {
-    await Company.findById(req.body.companyId);
-  } catch {
-    return res.status(400).send("Invalid CompanyId.");
-  }
+  const company = await Company.findById(req.body.companyId);
+  if (!company) return res.status(400).send("Invalid CompanyId.");
 
   let policy = new Policy({
     name: req.body.name,
@@ -47,17 +41,11 @@ router.put("/:id", async (req, res) => {
   const { error } = validatePolicy(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  try {
-    await Policyholder.findById(req.body.policyholderId);
-  } catch {
-    return res.status(400).send("Invalid PolicyholderId.");
-  }
+  const policholder = await Policyholder.findById(req.body.policyholderId);
+  if (!policholder) return res.status(400).send("Invalid PolicyholderId.");
 
-  try {
-    await Company.findById(req.body.companyId);
-  } catch {
-    return res.status(400).send("Invalid CompanyId.");
-  }
+  const company = await Company.findById(req.body.companyId);
+  if (!company) return res.status(400).send("Invalid CompanyId.");
 
   await Policyholder.findByIdAndUpdate(
     (await Policy.findById(req.params.id)).policyholder,
