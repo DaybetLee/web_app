@@ -10,14 +10,19 @@ const policyholderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  nric: {
+    type: String,
+    required: true,
+    minlength: 9,
+  },
   mobile: {
     type: Number,
     required: true,
     minlength: 8,
   },
-  nric: {
-    type: String,
-    required: true,
+  agent: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Agent",
   },
   policy: [
     {
@@ -25,23 +30,19 @@ const policyholderSchema = new mongoose.Schema({
       ref: "Policy",
     },
   ],
-  agent: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Agent",
-  },
 });
 
 const Policyholder = mongoose.model("Policyholder", policyholderSchema);
 
 function validatePolicyholder(Policyholder) {
   const schema = Joi.object({
-    name: Joi.string().min(1).required(),
-    agentId: Joi.objectId().required(),
-    nric: Joi.string().required(),
+    name: Joi.string().required(),
     email: Joi.string()
       .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
       .required(),
+    nric: Joi.string().min(9).required(),
     mobile: Joi.number().min(8).required(),
+    agentId: Joi.objectId().required(),
   });
   return schema.validate(Policyholder);
 }

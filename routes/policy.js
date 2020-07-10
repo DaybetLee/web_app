@@ -1,9 +1,7 @@
-const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 
 const { Policy, validatePolicy } = require("../models/policy");
-
 const { Policyholder } = require("../models/policyholder");
 const { Company } = require("../models/company");
 
@@ -18,8 +16,8 @@ router.post("/", async (req, res) => {
   const { error } = validatePolicy(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const policholder = await Policyholder.findById(req.body.policyholderId);
-  if (!policholder) return res.status(400).send("Invalid PolicyholderId.");
+  const policyholder = await Policyholder.findById(req.body.policyholderId);
+  if (!policyholder) return res.status(400).send("Invalid PolicyholderId.");
 
   const company = await Company.findById(req.body.companyId);
   if (!company) return res.status(400).send("Invalid CompanyId.");

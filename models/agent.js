@@ -9,11 +9,21 @@ const agentSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 5,
   },
   mobile: {
     type: Number,
     required: true,
     minlength: 8,
+  },
+  company: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Company",
   },
   policyholder: [
     {
@@ -21,9 +31,9 @@ const agentSchema = new mongoose.Schema({
       ref: "Policyholder",
     },
   ],
-  company: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Company",
+  isAgent: {
+    type: Boolean,
+    default: true,
   },
 });
 
@@ -31,12 +41,13 @@ const Agent = mongoose.model("Agent", agentSchema);
 
 function validateAgent(Agent) {
   const schema = Joi.object({
-    name: Joi.string().min(1).required(),
-    companyId: Joi.objectId().required(),
+    name: Joi.string().required(),
     email: Joi.string()
       .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
       .required(),
+    password: Joi.string().min(5).required(),
     mobile: Joi.number().min(8).required(),
+    companyId: Joi.objectId().required(),
   });
   return schema.validate(Agent);
 }

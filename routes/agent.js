@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 
@@ -16,14 +15,21 @@ router.post("/", async (req, res) => {
   const { error } = validateAgent(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
+  const email = await Agent.findOne({ email: req.body.email });
+  if (email)
+    return res
+      .status(400)
+      .send("The email address is already in use by another account.");
+
   const company = await Company.findById(req.body.companyId);
   if (!company) return res.status(400).send("Invalid CompanyId.");
 
-  let agent = new Agent({
+  const agent = new Agent({
     name: req.body.name,
-    company: req.body.companyId,
     email: req.body.email,
+    password: req.body.password,
     mobile: req.body.mobile,
+    company: req.body.companyId,
   });
 
   await agent.save();
@@ -41,10 +47,11 @@ router.put("/:id", async (req, res) => {
   const agent = await Agent.findByIdAndUpdate(
     req.params.id,
     {
-      name: req.body.namel,
-      company: req.body.companyId,
+      name: req.body.name,
       email: req.body.email,
+      password: req.body.password,
       mobile: req.body.mobile,
+      company: req.body.companyId,
     },
     { new: true }
   );

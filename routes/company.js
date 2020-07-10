@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 
@@ -20,7 +19,17 @@ router.post("/", async (req, res) => {
   const { error } = validateCompany(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  let company = new Company({ name: req.body.name });
+  const email = await Company.findOne({ email: req.body.email });
+  if (email)
+    return res
+      .status(400)
+      .send("The email address is already in use by another account.");
+
+  const company = new Company({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+  });
 
   await company.save();
   res.send(company);
@@ -33,7 +42,7 @@ router.put("/:id", async (req, res) => {
 
   const company = await Company.findByIdAndUpdate(
     req.params.id,
-    { name: req.body.name },
+    { name: req.body.name, email: req.body.email, password: req.body.password },
     { new: true }
   );
 

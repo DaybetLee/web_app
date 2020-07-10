@@ -6,22 +6,21 @@ const policySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  date: {
-    type: Date,
-    default: Date.now,
+  policyholder: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Policyholder",
+  },
+  company: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Company",
   },
   inforce: {
     type: Boolean,
     default: true,
   },
-  policyholder: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Policyholder",
-  },
-
-  company: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Company",
+  date: {
+    type: Date,
+    default: Date.now,
   },
 });
 
@@ -29,7 +28,7 @@ const Policy = mongoose.model("Policy", policySchema);
 
 function validatePolicy(Policy) {
   const schema = Joi.object({
-    name: Joi.string().min(1).required(),
+    name: Joi.string().required(),
     policyholderId: Joi.objectId().required(),
     companyId: Joi.objectId().required(),
     inforce: Joi.boolean(),

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Joi = require("@hapi/joi");
 
-const companySchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -16,15 +16,15 @@ const companySchema = new mongoose.Schema({
     required: true,
     minlength: 5,
   },
-  isCompanyAdmin: {
+  isUser: {
     type: Boolean,
     default: true,
   },
 });
 
-const Company = mongoose.model("Company", companySchema);
+const User = mongoose.model("User", userSchema);
 
-function validateCompany(Company) {
+function validateUser(User) {
   const schema = Joi.object({
     name: Joi.string().required(),
     email: Joi.string()
@@ -32,8 +32,8 @@ function validateCompany(Company) {
       .required(),
     password: Joi.string().min(5).required(),
   });
-  return schema.validate(Company);
+  return schema.validate(User);
 }
 
-exports.Company = Company;
-exports.validateCompany = validateCompany;
+exports.User = User;
+exports.validateUser = validateUser;

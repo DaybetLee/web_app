@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 
@@ -6,7 +5,6 @@ const {
   Policyholder,
   validatePolicyholder,
 } = require("../models/policyholder");
-
 const { Agent } = require("../models/agent");
 
 // GET Request
@@ -23,12 +21,12 @@ router.post("/", async (req, res) => {
   const agent = await Agent.findById(req.body.agentId);
   if (!agent) return res.status(400).send("Invalid AgentId.");
 
-  let policyholder = new Policyholder({
+  const policyholder = new Policyholder({
     name: req.body.name,
-    agent: req.body.agentId,
     email: req.body.email,
-    nric: req.body.nric,
     mobile: req.body.mobile,
+    nric: req.body.nric,
+    agent: req.body.agentId,
   });
 
   await policyholder.save();
@@ -58,10 +56,10 @@ router.put("/:id", async (req, res) => {
     req.params.id,
     {
       name: req.body.name,
-      agent: req.body.agentId,
       email: req.body.email,
-      nric: req.body.nric,
       mobile: req.body.mobile,
+      nric: req.body.nric,
+      agent: req.body.agentId,
     },
     { new: true }
   );
