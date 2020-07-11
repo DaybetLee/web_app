@@ -12,7 +12,7 @@ const { Policyholder } = require("../models/policyholder");
 const { Company } = require("../models/company");
 
 // GET Request
-router.get("/", [authorization, company_drop, agent_drop], async (req, res) => {
+router.get("/", async (req, res) => {
   const policy = await Policy.find().sort("name");
   res.send(policy);
 });
