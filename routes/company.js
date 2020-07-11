@@ -1,10 +1,17 @@
+const bcrypt = require("bcrypt");
 const express = require("express");
 const router = express.Router();
+
+const authorization = require("../middleware/authorization");
+const company_drop = require("../middleware/company_drop");
+const agent_drop = require("../middleware/agent_drop");
+const user_drop = require("../middleware/user_drop");
+const superadmin_drop = require("../middleware/superadmin_drop");
 
 const { Company, validateCompany } = require("../models/company");
 
 // GET Request
-router.get("/", async (req, res) => {
+router.get("/", [authorization], async (req, res) => {
   const company = await Company
     .find
     //   {$or: [{ name: req.query.cn }, { _id: req.query.cid }],}
@@ -31,6 +38,11 @@ router.post("/", async (req, res) => {
     password: req.body.password,
   });
 
+  company.password = await bcrypt.hash(
+    company.password,
+    await bcrypt.genSalt(10)
+  );
+
   await company.save();
   res.send(company);
 });
@@ -40,9 +52,14 @@ router.put("/:id", async (req, res) => {
   const { error } = validateCompany(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
+  const password = await bcrypt.hash(
+    req.body.password,
+    await bcrypt.genSalt(10)
+  );
+
   const company = await Company.findByIdAndUpdate(
     req.params.id,
-    { name: req.body.name, email: req.body.email, password: req.body.password },
+    { name: req.body.name, email: req.body.email, password: password },
     { new: true }
   );
 
@@ -66,6 +83,12 @@ router.get("/:id", async (req, res) => {
 
   if (!company)
     return res.status(404).send("404 Page Not Found. Company Not Found.");
+  res.send(company);
+});
+
+// GET Current
+router.get("/me", async (req, res) => {
+  const company = await Company.findById(req.user._id).select("-password");
   res.send(company);
 });
 

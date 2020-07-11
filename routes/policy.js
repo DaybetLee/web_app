@@ -1,12 +1,18 @@
 const express = require("express");
 const router = express.Router();
 
+const authorization = require("../middleware/authorization");
+const company_drop = require("../middleware/company_drop");
+const agent_drop = require("../middleware/agent_drop");
+const user_drop = require("../middleware/user_drop");
+const superadmin_drop = require("../middleware/superadmin_drop");
+
 const { Policy, validatePolicy } = require("../models/policy");
 const { Policyholder } = require("../models/policyholder");
 const { Company } = require("../models/company");
 
 // GET Request
-router.get("/", async (req, res) => {
+router.get("/", [authorization, company_drop, agent_drop], async (req, res) => {
   const policy = await Policy.find().sort("name");
   res.send(policy);
 });

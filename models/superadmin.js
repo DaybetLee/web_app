@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("@hapi/joi");
+const jwt = require("jsonwebtoken");
 
 const superadminSchema = new mongoose.Schema({
   name: {
@@ -21,6 +22,14 @@ const superadminSchema = new mongoose.Schema({
     default: true,
   },
 });
+
+superadminSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign(
+    { _id: this._id, isSuperadmin: this.isSuperadmin },
+    "jwtPrivateKey" // config.get("jwtPrivateKey")
+  );
+  return token;
+};
 
 const Superadmin = mongoose.model("Superadmin", superadminSchema);
 

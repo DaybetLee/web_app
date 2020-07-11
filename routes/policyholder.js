@@ -1,6 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
+const authorization = require("../middleware/authorization");
+const company_drop = require("../middleware/company_drop");
+const agent_drop = require("../middleware/agent_drop");
+const user_drop = require("../middleware/user_drop");
+const superadmin_drop = require("../middleware/superadmin_drop");
+
 const {
   Policyholder,
   validatePolicyholder,
@@ -8,7 +14,7 @@ const {
 const { Agent } = require("../models/agent");
 
 // GET Request
-router.get("/", async (req, res) => {
+router.get("/", [authorization], async (req, res) => {
   const policyholder = await Policyholder.find().sort("name");
   res.send(policyholder);
 });
