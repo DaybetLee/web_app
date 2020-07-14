@@ -4,7 +4,7 @@ import { getAgents } from "../services/agentService.js";
 import NavBar from "./common/navbar.jsx";
 import Pagination from "../components/common/pagination";
 import { paginate } from "./utils/paginate";
-import AgentsTable from "./common/agentsTable";
+import AgentsTable from "./agentsTable";
 
 class Company extends Component {
   state = {

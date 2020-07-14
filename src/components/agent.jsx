@@ -4,7 +4,7 @@ import { getPolicyholders } from "../services/policyholderService";
 import NavBar from "./common/navbar.jsx";
 import Pagination from "../components/common/pagination";
 import { paginate } from "./utils/paginate";
-import PolicyholdersTable from "./common/policyholdersTable";
+import PolicyholdersTable from "./policyholdersTable";
 
 class Agent extends Component {
   state = {

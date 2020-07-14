@@ -5,7 +5,7 @@ import { getCompanies } from "../services/companyService";
 import NavBar from "./common/navbar.jsx";
 import Pagination from "../components/common/pagination";
 import { paginate } from "./utils/paginate";
-import PoliciesTable from "./common/policiesTable";
+import PoliciesTable from "./policiesTable";
 import ListGroup from "./common/listGroup";
 
 class Policyholder extends Component {
@@ -35,7 +35,6 @@ class Policyholder extends Component {
   };
 
   render() {
-    const { length: count } = this.state.policies;
     const {
       pageSize,
       currentPage,
