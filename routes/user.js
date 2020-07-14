@@ -11,7 +11,7 @@ const superadmin_drop = require("../middleware/superadmin_drop");
 const { User, validateUser } = require("../models/user");
 
 // GET Request
-router.get("/", [authorization], async (req, res) => {
+router.get("/", async (req, res) => {
   const user = await User.find().sort("name");
 
   res.send(user);

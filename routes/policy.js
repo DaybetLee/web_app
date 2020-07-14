@@ -13,7 +13,7 @@ const { Company } = require("../models/company");
 
 // GET Request
 router.get("/", async (req, res) => {
-  const policy = await Policy.find().sort("name");
+  const policy = await Policy.find().sort("name").populate("company");
   res.send(policy);
 });
 

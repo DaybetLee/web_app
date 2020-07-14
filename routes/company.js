@@ -11,7 +11,7 @@ const superadmin_drop = require("../middleware/superadmin_drop");
 const { Company, validateCompany } = require("../models/company");
 
 // GET Request
-router.get("/", [authorization], async (req, res) => {
+router.get("/", async (req, res) => {
   const company = await Company
     .find
     //   {$or: [{ name: req.query.cn }, { _id: req.query.cid }],}

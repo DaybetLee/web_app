@@ -12,8 +12,8 @@ const { Agent, validateAgent } = require("../models/agent");
 const { Company } = require("../models/company");
 
 // GET Request
-router.get("/", [authorization], async (req, res) => {
-  const agent = await Agent.find().sort("name");
+router.get("/", async (req, res) => {
+  const agent = await Agent.find().sort("name").populate();
   res.send(agent);
 });
 

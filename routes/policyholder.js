@@ -14,8 +14,8 @@ const {
 const { Agent } = require("../models/agent");
 
 // GET Request
-router.get("/", [authorization], async (req, res) => {
-  const policyholder = await Policyholder.find().sort("name");
+router.get("/", async (req, res) => {
+  const policyholder = await Policyholder.find().sort("name").populate();
   res.send(policyholder);
 });
 
