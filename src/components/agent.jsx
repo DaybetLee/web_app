@@ -4,13 +4,18 @@ import { getPolicyholders } from "../services/policyholderService";
 import NavBar from "./common/navbar.jsx";
 import Pagination from "../components/common/pagination";
 import { paginate } from "./utils/paginate";
+import PolicyholdersTable from "./common/policyholdersTable";
 
 class Agent extends Component {
   state = {
-    policyholders: getPolicyholders(),
+    policyholders: [],
     currentPage: 1,
     pageSize: 4,
   };
+
+  componentDidMount() {
+    this.setState({ policyholders: getPolicyholders() });
+  }
 
   handleView = (policyholder) => {
     console.log(policyholder);
@@ -32,40 +37,21 @@ class Agent extends Component {
     return (
       <React.Fragment>
         <NavBar />
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Mobile</th>
-              <th>NRIC</th>
-            </tr>
-          </thead>
-          <tbody>
-            {policyholders.map((policyholder) => (
-              <tr key={policyholder._id}>
-                <td>{policyholder.name}</td>
-                <td>{policyholder.email}</td>
-                <td>{policyholder.mobile}</td>
-                <td>{policyholder.nric}</td>
-                <td>
-                  <button
-                    onClick={() => this.handleView(policyholder)}
-                    className="btn btn-primary btn-sm"
-                  >
-                    View
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <Pagination
-          itemsCount={count}
-          pageSize={pageSize}
-          onPageChange={this.handlePageChange}
-          currentPage={currentPage}
-        />
+        <div className="row">
+          {/* <div className="col-3"></div> */}
+          <div className="col">
+            <PolicyholdersTable
+              policyholders={policyholders}
+              onView={this.handleView}
+            />
+            <Pagination
+              itemsCount={count}
+              pageSize={pageSize}
+              onPageChange={this.handlePageChange}
+              currentPage={currentPage}
+            />
+          </div>
+        </div>
       </React.Fragment>
     );
   }

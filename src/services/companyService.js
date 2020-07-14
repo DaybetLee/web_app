@@ -1,5 +1,3 @@
-import * as genresAPI from "./fakeGenreService";
-
 const companies = [
   {
     isCompanyAdmin: true,

@@ -1,16 +1,26 @@
 import React, { Component } from "react";
 
 import { getPolicies } from "../services/policyService";
+import { getCompanies } from "../services/companyService";
 import NavBar from "./common/navbar.jsx";
 import Pagination from "../components/common/pagination";
 import { paginate } from "./utils/paginate";
+import PoliciesTable from "./common/policiesTable";
+import ListGroup from "./common/listGroup";
 
 class Policyholder extends Component {
   state = {
-    policies: getPolicies(),
+    policies: [],
+    company: [],
     currentPage: 1,
     pageSize: 4,
   };
+
+  componentDidMount() {
+    const company = [{ _id: "", name: "All Company" }, ...getCompanies()];
+
+    this.setState({ policies: getPolicies(), company });
+  }
 
   handleDelete = (policy) => {
     console.log(policy);
@@ -20,46 +30,47 @@ class Policyholder extends Component {
     this.setState({ currentPage: page });
   };
 
+  handleCompanySelect = (company) => {
+    this.setState({ selectedCompany: company, currentPage: 1 });
+  };
+
   render() {
     const { length: count } = this.state.policies;
-    const { pageSize, currentPage, policies: allPolicy } = this.state;
-    const policies = paginate(allPolicy, currentPage, pageSize);
+    const {
+      pageSize,
+      currentPage,
+      policies: allPolicy,
+      selectedCompany,
+    } = this.state;
+
+    const filtered =
+      selectedCompany && selectedCompany._id
+        ? allPolicy.filter((p) => p.company._id === selectedCompany._id)
+        : allPolicy;
+
+    const policies = paginate(filtered, currentPage, pageSize);
 
     return (
       <React.Fragment>
         <NavBar />
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Start Date</th>
-              <th>inforce</th>
-            </tr>
-          </thead>
-          <tbody>
-            {policies.map((policy) => (
-              <tr key={policy._id}>
-                <td>{policy.name}</td>
-                <td>{policy.date}</td>
-                <td>{policy.inforce}</td>
-                <td>
-                  <button
-                    onClick={() => this.handleDelete(policy)}
-                    className="btn btn-primary btn-sm"
-                  >
-                    View
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <Pagination
-          itemsCount={count}
-          pageSize={pageSize}
-          onPageChange={this.handlePageChange}
-          currentPage={currentPage}
-        />
+        <div className="row">
+          <div className="col-3">
+            <ListGroup
+              items={this.state.company}
+              selectedItem={this.state.selectedCompany}
+              onItemSelect={this.handleCompanySelect}
+            />
+          </div>
+          <div className="col">
+            <PoliciesTable policies={policies} onDelete={this.handleDelete} />
+            <Pagination
+              itemsCount={filtered.length}
+              pageSize={pageSize}
+              onPageChange={this.handlePageChange}
+              currentPage={currentPage}
+            />
+          </div>
+        </div>
       </React.Fragment>
     );
   }

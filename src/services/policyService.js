@@ -9,7 +9,7 @@ const policies = [
     __v: 0,
   },
   {
-    inforce: true,
+    inforce: false,
     _id: "5f09aa112882ec58b02e9172",
     name: "policy2",
     policyholder: { _id: "5f09a9cc2882ec58b02e9171", name: "policyholder1" },

@@ -4,13 +4,18 @@ import { getAgents } from "../services/agentService.js";
 import NavBar from "./common/navbar.jsx";
 import Pagination from "../components/common/pagination";
 import { paginate } from "./utils/paginate";
+import AgentsTable from "./common/agentsTable";
 
 class Company extends Component {
   state = {
-    agents: getAgents(),
+    agents: [],
     currentPage: 1,
     pageSize: 4,
   };
+
+  componentDidMount() {
+    this.setState({ agents: getAgents() });
+  }
 
   handleUpdate = (agent) => {
     console.log(agent);
@@ -32,44 +37,22 @@ class Company extends Component {
     return (
       <React.Fragment>
         <NavBar />
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Mobile</th>
-            </tr>
-          </thead>
-          <tbody>
-            {agents.map((agents) => (
-              <tr key={agents._id}>
-                <td>{agents.name}</td>
-                <td>{agents.email}</td>
-                <td>{agents.mobile}</td>
-                <td>
-                  <button
-                    onClick={() => this.handleUpdate(agents)}
-                    className="btn btn-primary btn-sm m-2"
-                  >
-                    Update
-                  </button>
-                  <button
-                    onClick={() => this.handleDelete(agents)}
-                    className="btn btn-danger btn-sm"
-                  >
-                    Resign
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <Pagination
-          itemsCount={count}
-          pageSize={pageSize}
-          onPageChange={this.handlePageChange}
-          currentPage={currentPage}
-        />
+        <div className="row">
+          {/* <div className="col-3"></div> */}
+          <div className="col">
+            <AgentsTable
+              agents={agents}
+              onDelete={this.handleDelete}
+              onUpdate={this.handleUpdate}
+            />
+            <Pagination
+              itemsCount={count}
+              pageSize={pageSize}
+              onPageChange={this.handlePageChange}
+              currentPage={currentPage}
+            />
+          </div>
+        </div>
       </React.Fragment>
     );
   }
