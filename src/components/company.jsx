@@ -1,16 +1,20 @@
 import React, { Component } from "react";
+import _ from "lodash";
+
+import NavBar from "./common/navbar.jsx";
+import Pagination from "./common/pagination";
+import AgentsTable from "./agentsTable";
+
+import { paginate } from "./utils/paginate";
 
 import { getAgents } from "../services/agentService.js";
-import NavBar from "./common/navbar.jsx";
-import Pagination from "../components/common/pagination";
-import { paginate } from "./utils/paginate";
-import AgentsTable from "./agentsTable";
 
 class Company extends Component {
   state = {
     agents: [],
     currentPage: 1,
     pageSize: 4,
+    sortColumn: { path: "title", order: "asc" },
   };
 
   componentDidMount() {
@@ -29,10 +33,20 @@ class Company extends Component {
     this.setState({ currentPage: page });
   };
 
+  handleSort = (sortColumn) => {
+    this.setState({ sortColumn });
+  };
+
+  getPagedData = () => {
+    const { pageSize, currentPage, agents: allAgent, sortColumn } = this.state;
+    const sorted = _.orderBy(allAgent, [sortColumn.path], [sortColumn.order]);
+    const agents = paginate(sorted, currentPage, pageSize);
+    return { totalCount: allAgent.length, data: agents };
+  };
+
   render() {
-    const { length: count } = this.state.agents;
-    const { pageSize, currentPage, agents: allAgent } = this.state;
-    const agents = paginate(allAgent, currentPage, pageSize);
+    const { pageSize, currentPage, sortColumn } = this.state;
+    const { totalCount, data: agents } = this.getPagedData();
 
     return (
       <React.Fragment>
@@ -42,11 +56,13 @@ class Company extends Component {
           <div className="col">
             <AgentsTable
               agents={agents}
+              sortColumn={sortColumn}
               onDelete={this.handleDelete}
               onUpdate={this.handleUpdate}
+              onSort={this.handleSort}
             />
             <Pagination
-              itemsCount={count}
+              itemsCount={totalCount}
               pageSize={pageSize}
               onPageChange={this.handlePageChange}
               currentPage={currentPage}

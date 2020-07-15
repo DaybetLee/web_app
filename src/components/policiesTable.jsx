@@ -1,36 +1,36 @@
-import React from "react";
+import React, { Component } from "react";
 
-const PoliciesTable = (props) => {
-  const { policies, onDelete } = props;
+import Table from "./common/table";
 
-  return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Start Date</th>
-          <th>inforce</th>
-        </tr>
-      </thead>
-      <tbody>
-        {policies.map((policy) => (
-          <tr key={policy._id}>
-            <td>{policy.name}</td>
-            <td>{policy.date}</td>
-            <td>{policy.inforce}</td>
-            <td>
-              <button
-                onClick={() => onDelete(policy)}
-                className="btn btn-primary btn-sm"
-              >
-                View
-              </button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-};
+class PoliciesTable extends Component {
+  columns = [
+    { path: "name", label: "Name" },
+    { path: "date", label: "Date" },
+    { path: "inforce", label: "Inforce" },
+    {
+      key: "View",
+      content: (policy) => (
+        <button
+          onClick={() => this.props.onDelete(policy)}
+          className="btn btn-primary btn-sm"
+        >
+          View
+        </button>
+      ),
+    },
+  ];
+
+  render() {
+    const { policies, sortColumn, onSort } = this.props;
+    return (
+      <Table
+        columns={this.columns}
+        data={policies}
+        sortColumn={sortColumn}
+        onSort={onSort}
+      />
+    );
+  }
+}
 
 export default PoliciesTable;

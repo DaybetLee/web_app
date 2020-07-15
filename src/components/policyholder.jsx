@@ -1,12 +1,15 @@
 import React, { Component } from "react";
+import _ from "lodash";
+
+import NavBar from "./common/navbar.jsx";
+import Pagination from "./common/pagination";
+import ListGroup from "./common/listGroup";
+import PoliciesTable from "./policiesTable";
+
+import { paginate } from "./utils/paginate";
 
 import { getPolicies } from "../services/policyService";
 import { getCompanies } from "../services/companyService";
-import NavBar from "./common/navbar.jsx";
-import Pagination from "../components/common/pagination";
-import { paginate } from "./utils/paginate";
-import PoliciesTable from "./policiesTable";
-import ListGroup from "./common/listGroup";
 
 class Policyholder extends Component {
   state = {
@@ -14,6 +17,7 @@ class Policyholder extends Component {
     company: [],
     currentPage: 1,
     pageSize: 4,
+    sortColumn: { path: "title", order: "asc" },
   };
 
   componentDidMount() {
@@ -34,11 +38,16 @@ class Policyholder extends Component {
     this.setState({ selectedCompany: company, currentPage: 1 });
   };
 
-  render() {
+  handleSort = (sortColumn) => {
+    this.setState({ sortColumn });
+  };
+
+  getPagedData = () => {
     const {
       pageSize,
       currentPage,
       policies: allPolicy,
+      sortColumn,
       selectedCompany,
     } = this.state;
 
@@ -47,7 +56,15 @@ class Policyholder extends Component {
         ? allPolicy.filter((p) => p.company._id === selectedCompany._id)
         : allPolicy;
 
-    const policies = paginate(filtered, currentPage, pageSize);
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+
+    const policies = paginate(sorted, currentPage, pageSize);
+
+    return { totalCount: filtered.length, data: policies };
+  };
+  render() {
+    const { pageSize, currentPage, sortColumn } = this.state;
+    const { totalCount, data: policies } = this.getPagedData();
 
     return (
       <React.Fragment>
@@ -61,9 +78,14 @@ class Policyholder extends Component {
             />
           </div>
           <div className="col">
-            <PoliciesTable policies={policies} onDelete={this.handleDelete} />
+            <PoliciesTable
+              policies={policies}
+              sortColumn={sortColumn}
+              onDelete={this.handleDelete}
+              onSort={this.handleSort}
+            />
             <Pagination
-              itemsCount={filtered.length}
+              itemsCount={totalCount}
               pageSize={pageSize}
               onPageChange={this.handlePageChange}
               currentPage={currentPage}

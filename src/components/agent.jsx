@@ -1,16 +1,20 @@
 import React, { Component } from "react";
+import _ from "lodash";
+
+import NavBar from "./common/navbar.jsx";
+import Pagination from "./common/pagination";
+import PolicyholdersTable from "./policyholdersTable";
+
+import { paginate } from "./utils/paginate";
 
 import { getPolicyholders } from "../services/policyholderService";
-import NavBar from "./common/navbar.jsx";
-import Pagination from "../components/common/pagination";
-import { paginate } from "./utils/paginate";
-import PolicyholdersTable from "./policyholdersTable";
 
 class Agent extends Component {
   state = {
     policyholders: [],
     currentPage: 1,
     pageSize: 4,
+    sortColumn: { path: "title", order: "asc" },
   };
 
   componentDidMount() {
@@ -25,14 +29,29 @@ class Agent extends Component {
     this.setState({ currentPage: page });
   };
 
-  render() {
-    const { length: count } = this.state.policyholders;
+  handleSort = (sortColumn) => {
+    this.setState({ sortColumn });
+  };
+
+  getPagedData = () => {
     const {
       pageSize,
       currentPage,
       policyholders: allpolicyholder,
+      sortColumn,
     } = this.state;
-    const policyholders = paginate(allpolicyholder, currentPage, pageSize);
+    const sorted = _.orderBy(
+      allpolicyholder,
+      [sortColumn.path],
+      [sortColumn.order]
+    );
+    const policyholders = paginate(sorted, currentPage, pageSize);
+    return { totalCount: allpolicyholder.length, data: policyholders };
+  };
+
+  render() {
+    const { pageSize, currentPage, sortColumn } = this.state;
+    const { totalCount, data: policyholders } = this.getPagedData();
 
     return (
       <React.Fragment>
@@ -42,10 +61,12 @@ class Agent extends Component {
           <div className="col">
             <PolicyholdersTable
               policyholders={policyholders}
+              sortColumn={sortColumn}
               onView={this.handleView}
+              onSort={this.handleSort}
             />
             <Pagination
-              itemsCount={count}
+              itemsCount={totalCount}
               pageSize={pageSize}
               onPageChange={this.handlePageChange}
               currentPage={currentPage}

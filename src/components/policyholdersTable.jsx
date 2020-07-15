@@ -1,38 +1,36 @@
-import React from "react";
+import React, { Component } from "react";
 
-const PolicyholdersTable = (props) => {
-  const { policyholders, onView } = props;
+import Table from "./common/table";
 
-  return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Mobile</th>
-          <th>NRIC</th>
-        </tr>
-      </thead>
-      <tbody>
-        {policyholders.map((policyholder) => (
-          <tr key={policyholder._id}>
-            <td>{policyholder.name}</td>
-            <td>{policyholder.email}</td>
-            <td>{policyholder.mobile}</td>
-            <td>{policyholder.nric}</td>
-            <td>
-              <button
-                onClick={() => onView(policyholder)}
-                className="btn btn-primary btn-sm"
-              >
-                View
-              </button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-};
+class PolicyholdersTable extends Component {
+  columns = [
+    { path: "name", label: "Name" },
+    { path: "email", label: "Email" },
+    { path: "mobile", label: "Mobile" },
+    { path: "nric", label: "NRIC" },
+    {
+      key: "update",
+      content: (policyholder) => (
+        <button
+          onClick={() => this.props.onView(policyholder)}
+          className="btn btn-primary btn-sm"
+        >
+          View
+        </button>
+      ),
+    },
+  ];
+  render() {
+    const { policyholders, sortColumn, onSort } = this.props;
+    return (
+      <Table
+        columns={this.columns}
+        data={policyholders}
+        sortColumn={sortColumn}
+        onSort={onSort}
+      />
+    );
+  }
+}
 
 export default PolicyholdersTable;
