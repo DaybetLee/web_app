@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import _ from "lodash";
 
-import NavBar from "./common/navbar.jsx";
-import Pagination from "./common/pagination";
-import ListGroup from "./common/listGroup";
+import Pagination from "../common/pagination";
+import ListGroup from "../common/listGroup";
 import PoliciesTable from "./policiesTable";
 
-import { paginate } from "./utils/paginate";
+import { paginate } from "../utils/paginate";
 
-import { getPolicies } from "../services/policyService";
-import { getCompanies } from "../services/companyService";
+import { getPolicies } from "../../services/policyService";
+import { getCompanies } from "../../services/companyService";
 
-class Policyholder extends Component {
+class Policy extends Component {
   state = {
     policies: [],
     company: [],
@@ -62,13 +61,13 @@ class Policyholder extends Component {
 
     return { totalCount: filtered.length, data: policies };
   };
+
   render() {
     const { pageSize, currentPage, sortColumn } = this.state;
     const { totalCount, data: policies } = this.getPagedData();
 
     return (
       <React.Fragment>
-        <NavBar />
         <div className="row">
           <div className="col-3">
             <ListGroup
@@ -97,12 +96,4 @@ class Policyholder extends Component {
   }
 }
 
-export default Policyholder;
-
-// inforce: true,
-// _id: "5f09aa112882ec58b02e9171",
-// name: "policy1",
-// policyholder: "5f09a9cc2882ec58b02e9171",
-// company: "5f09a9972882ec58b02e916e",
-// date: "2020-07-11T12:01:21.122Z",
-// __v: 0,
+export default Policy;

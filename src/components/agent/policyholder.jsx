@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import _ from "lodash";
 
-import NavBar from "./common/navbar.jsx";
-import Pagination from "./common/pagination";
+import Pagination from "../common/pagination";
 import PolicyholdersTable from "./policyholdersTable";
 
-import { paginate } from "./utils/paginate";
+import { paginate } from "../utils/paginate";
 
-import { getPolicyholders } from "../services/policyholderService";
+import { getPolicyholders } from "../../services/policyholderService";
 
-class Agent extends Component {
+class Policyholder extends Component {
   state = {
     policyholders: [],
     currentPage: 1,
@@ -55,7 +54,6 @@ class Agent extends Component {
 
     return (
       <React.Fragment>
-        <NavBar />
         <div className="row">
           {/* <div className="col-3"></div> */}
           <div className="col">
@@ -78,7 +76,7 @@ class Agent extends Component {
   }
 }
 
-export default Agent;
+export default Policyholder;
 
 // policy: [],
 // _id: "5f09a9e22882ec58b02e9179",

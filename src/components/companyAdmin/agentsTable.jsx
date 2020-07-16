@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import Table from "./common/table";
+import Table from "../common/table";
 
 class AgentsTable extends Component {
   columns = [
@@ -12,7 +12,7 @@ class AgentsTable extends Component {
       content: (agent) => (
         <button
           onClick={() => this.props.onUpdate(agent)}
-          className="btn btn-primary btn-sm m-2"
+          className="btn btn-primary btn-sm"
         >
           Update
         </button>

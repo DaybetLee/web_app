@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import _ from "lodash";
 
-import NavBar from "./common/navbar.jsx";
-import Pagination from "./common/pagination";
+import Pagination from "../common/pagination";
 import AgentsTable from "./agentsTable";
 
-import { paginate } from "./utils/paginate";
+import { paginate } from "../utils/paginate";
 
-import { getAgents } from "../services/agentService.js";
+import { getAgents } from "../../services/agentService.js";
 
-class Company extends Component {
+class Agent extends Component {
   state = {
     agents: [],
     currentPage: 1,
@@ -50,9 +49,7 @@ class Company extends Component {
 
     return (
       <React.Fragment>
-        <NavBar />
         <div className="row">
-          {/* <div className="col-3"></div> */}
           <div className="col">
             <AgentsTable
               agents={agents}
@@ -74,4 +71,4 @@ class Company extends Component {
   }
 }
 
-export default Company;
+export default Agent;

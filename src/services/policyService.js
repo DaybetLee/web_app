@@ -14,7 +14,7 @@ const policies = [
     name: "policy2",
     policyholder: { _id: "5f09a9cc2882ec58b02e9171", name: "policyholder1" },
     company: { _id: "5f09a9972882ec58b02e916e", name: "AIA" },
-    date: "2020-07-11T12:01:21.122Z",
+    date: "2020-07-12T12:01:21.122Z",
     __v: 0,
   },
   {
@@ -23,7 +23,7 @@ const policies = [
     name: "policy3",
     policyholder: { _id: "5f09a9cc2882ec58b02e9171", name: "policyholder1" },
     company: { _id: "5f09a9972882ec58b02e916e", name: "AIA" },
-    date: "2020-07-11T12:01:21.122Z",
+    date: "2020-07-13T12:01:21.122Z",
     __v: 0,
   },
   {
@@ -32,7 +32,7 @@ const policies = [
     name: "policy4",
     policyholder: { _id: "5f09a9cc2882ec58b02e9171", name: "policyholder1" },
     company: { _id: "5f09a9972882ec58b02e916e", name: "AIA" },
-    date: "2020-07-11T12:01:21.122Z",
+    date: "2020-07-14T12:01:21.122Z",
     __v: 0,
   },
   {
@@ -41,7 +41,7 @@ const policies = [
     name: "policy5",
     policyholder: { _id: "5f09a9cc2882ec58b02e9171", name: "policyholder1" },
     company: { _id: "5f09a9972882ec58b02e916e", name: "AIA" },
-    date: "2020-07-11T12:01:21.122Z",
+    date: "2020-07-15T12:01:21.122Z",
     __v: 0,
   },
   {
@@ -50,7 +50,7 @@ const policies = [
     name: "policy6",
     policyholder: { _id: "5f09a9cc2882ec58b02e9171", name: "policyholder1" },
     company: { _id: "5f09a9972882ec58b02e916e", name: "AIA" },
-    date: "2020-07-11T12:01:21.122Z",
+    date: "2020-07-16T12:01:21.122Z",
     __v: 0,
   },
   {
@@ -59,7 +59,7 @@ const policies = [
     name: "policy7",
     policyholder: { _id: "5f09a9cc2882ec58b02e9171", name: "policyholder1" },
     company: { _id: "5f09a9972882ec58b02e916e", name: "AIA" },
-    date: "2020-07-11T12:01:21.122Z",
+    date: "2020-07-17T12:01:21.122Z",
     __v: 0,
   },
   {
@@ -68,7 +68,7 @@ const policies = [
     name: "policy8",
     policyholder: { _id: "5f09a9cc2882ec58b02e9171", name: "policyholder1" },
     company: { _id: "5f09a9972882ec58b02e916e", name: "AIA" },
-    date: "2020-07-11T12:01:21.122Z",
+    date: "2020-07-18T12:01:21.122Z",
     __v: 0,
   },
   {
@@ -77,7 +77,7 @@ const policies = [
     name: "policy9",
     policyholder: { _id: "5f09a9cc2882ec58b02e9171", name: "policyholder1" },
     company: { _id: "5f09a9972882ec58b02e916a", name: "Prudential" },
-    date: "2020-07-11T12:01:21.122Z",
+    date: "2020-07-19T12:01:21.122Z",
     __v: 0,
   },
 ];
