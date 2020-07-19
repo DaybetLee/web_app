@@ -1,4 +1,4 @@
-const companies = [
+export const companies = [
   {
     isCompanyAdmin: true,
     name: "AIA",

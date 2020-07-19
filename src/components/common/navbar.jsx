@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../brand/IPM Logo.png";
+import Logo from "../../assets/brand/IPM Logo.png";
 
 const Navbar = ({ totalCounters }) => {
   return (

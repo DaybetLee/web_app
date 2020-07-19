@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import _ from "lodash";
+import { Link } from "react-router-dom";
 
 import Pagination from "../common/pagination";
 import PolicyholdersTable from "./policyholdersTable";
@@ -55,8 +56,14 @@ class Policyholder extends Component {
     return (
       <React.Fragment>
         <div className="row">
-          {/* <div className="col-3"></div> */}
           <div className="col">
+            <Link
+              to="/policyholder/new"
+              className="btn btn-primary pull-right"
+              style={{ marginBottom: 20 }}
+            >
+              Add
+            </Link>
             <PolicyholdersTable
               policyholders={policyholders}
               sortColumn={sortColumn}

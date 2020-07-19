@@ -33,7 +33,7 @@ class Form extends Component {
     this.setState({ errors: errors || {} });
     if (errors) return;
 
-    this.dosubmit();
+    this.doSubmit();
   };
 
   handleChange = ({ currentTarget: input }) => {
@@ -50,8 +50,22 @@ class Form extends Component {
 
   renderButton(label) {
     return (
-      <button disabled={this.validate()} className="btn btn-primary pull-right">
+      <button
+        disabled={this.validate()}
+        className="btn btn-primary pull-right m-2"
+      >
         {label}
+      </button>
+    );
+  }
+
+  renderBackButton() {
+    return (
+      <button
+        className="btn btn-primary pull-right m-2"
+        onClick={() => this.props.history.goBack()}
+      >
+        Back
       </button>
     );
   }

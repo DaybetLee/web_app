@@ -1,3 +1,5 @@
+import * as companyAPI from "./companyService";
+
 const agents = [
   {
     policyholder: [
@@ -116,4 +118,27 @@ export function getAgents() {
 
 export function getAgent(id) {
   return agents.find((m) => m._id === id);
+}
+
+export function saveAgent(agent) {
+  let agentInDb = agents.find((a) => a._id === agent._id) || {};
+
+  agentInDb.name = agent.name;
+
+  agentInDb.email = agent.email;
+
+  agentInDb.password = agent.password;
+
+  agentInDb.mobile = agent.mobile;
+
+  // agentInDb.company = companyAPI.companies.find(
+  //   (c) => c._id === agent.companyId
+  // );
+
+  if (!agentInDb._id) {
+    agentInDb._id = Date.now().toString();
+    agents.push(agentInDb);
+  }
+
+  return agentInDb;
 }

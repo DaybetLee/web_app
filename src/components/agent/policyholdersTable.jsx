@@ -17,17 +17,15 @@ class PolicyholdersTable extends Component {
     { path: "email", label: "Email" },
     { path: "mobile", label: "Mobile" },
     { path: "nric", label: "NRIC" },
-    // {
-    //   key: "update",
-    //   content: (policyholder) => (
-    //     <button
-    //       onClick={() => this.props.onView(policyholder)}
-    //       className="btn btn-primary btn-sm"
-    //     >
-    //       View
-    //     </button>
-    //   ),
-    // },
+    {
+      path: "policy",
+      label: "Policy",
+      content: (policyholder) => (
+        <Link to={`/policyholderpolicy/${policyholder._id}`}>
+          {policyholder.policy.length}
+        </Link>
+      ),
+    },
   ];
   render() {
     const { policyholders, sortColumn, onSort } = this.props;

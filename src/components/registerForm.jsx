@@ -4,7 +4,7 @@ import Form from "./common/form";
 
 class RegisterForm extends Form {
   state = {
-    data: { email: "", password: "", name: "" },
+    data: { name: "", email: "", password: "" },
     errors: {},
   };
 
@@ -12,7 +12,6 @@ class RegisterForm extends Form {
     name: Joi.string().required().label("Name"),
     email: Joi.string().required().email().label("Email"),
     password: Joi.string().required().min(5).label("Password"),
-    repeat_password: Joi.ref("password"),
   };
 
   doSubmit = () => {
@@ -28,7 +27,7 @@ class RegisterForm extends Form {
           {this.renderInput("name", "Name")}
           {this.renderInput("email", "Email")}
           {this.renderInput("password", "Password", "password")}
-          {this.renderInput("repeat_password", "repeat_password", "password")}
+          {this.renderBackButton()}
           {this.renderButton("Register")}
         </form>
       </div>

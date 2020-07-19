@@ -89,3 +89,28 @@ export function getPolicies() {
 export function getPolicy(id) {
   return policies.find((m) => m._id === id);
 }
+
+export function savePolicy(policy) {
+  let policyInDb = policies.find((p) => p._id === policy._id) || {};
+
+  policyInDb.name = policy.name;
+
+  policyInDb.inforce = policy.inforce;
+
+  // policyInDb.company = companyAPI.companies.find(
+  //   (c) => c._id === policy.companyId
+  // );
+
+  if (!policyInDb._id) {
+    policyInDb._id = Date.now().toString();
+    policies.push(policyInDb);
+  }
+
+  return policyInDb;
+}
+
+// let policy = new Policy({
+//   name: req.body.name,
+//   policyholder: req.body.policyholderId,
+//   company: req.body.companyId,
+// });

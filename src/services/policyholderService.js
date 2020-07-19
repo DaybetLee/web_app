@@ -1,4 +1,4 @@
-const policyholder = [
+const policyholders = [
   {
     policy: [
       "5f09aa112882ec58b02e9171",
@@ -102,9 +102,39 @@ const policyholder = [
 ];
 
 export function getPolicyholders() {
-  return policyholder;
+  return policyholders;
 }
 
 export function getPolicyholder(id) {
-  return policyholder.find((m) => m._id === id);
+  return policyholders.find((m) => m._id === id);
 }
+
+export function savePolicyholder(policyholder) {
+  let policyholderInDb =
+    policyholders.find((p) => p._id === policyholder._id) || {};
+
+  policyholderInDb.name = policyholder.name;
+
+  policyholderInDb.email = policyholder.email;
+
+  policyholderInDb.nric = policyholder.nric;
+
+  policyholderInDb.mobile = policyholder.mobile;
+
+  // policyholderInDb.company = companyAPI.companies.find(
+  //   (c) => c._id === policyholder.companyId
+  // );
+
+  if (!policyholderInDb._id) {
+    policyholderInDb._id = Date.now().toString();
+    policyholders.push(policyholderInDb);
+  }
+
+  return policyholderInDb;
+}
+
+// name: req.body.name,
+// email: req.body.email,
+// mobile: req.body.mobile,
+// nric: req.body.nric,
+// agent: req.body.agentId,

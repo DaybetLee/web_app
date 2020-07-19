@@ -3,31 +3,24 @@ import _ from "lodash";
 import { Link } from "react-router-dom";
 
 import Pagination from "../common/pagination";
-import AgentsTable from "./agentsTable";
+import PoliciesholderPolicyTable from "./policholderPolicyTable";
 
 import { paginate } from "../utils/paginate";
 
-import { getAgents } from "../../services/agentService.js";
+import { getPolicies } from "../../services/policyService";
 
-class Agent extends Component {
+class PolicyholderPolicy extends Component {
   state = {
-    agents: [],
+    policies: [],
+    company: [],
     currentPage: 1,
     pageSize: 4,
     sortColumn: { path: "title", order: "asc" },
   };
 
   componentDidMount() {
-    this.setState({ agents: getAgents() });
+    this.setState({ policies: getPolicies() });
   }
-
-  handleUpdate = (agent) => {
-    console.log(agent);
-  };
-
-  handleDelete = (agent) => {
-    console.log(agent.name);
-  };
 
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
@@ -38,32 +31,44 @@ class Agent extends Component {
   };
 
   getPagedData = () => {
-    const { pageSize, currentPage, agents: allAgent, sortColumn } = this.state;
-    const sorted = _.orderBy(allAgent, [sortColumn.path], [sortColumn.order]);
-    const agents = paginate(sorted, currentPage, pageSize);
-    return { totalCount: allAgent.length, data: agents };
+    const {
+      pageSize,
+      currentPage,
+      policies: allPolicy,
+      sortColumn,
+      selectedCompany,
+    } = this.state;
+
+    const filtered =
+      selectedCompany && selectedCompany._id
+        ? allPolicy.filter((p) => p.company._id === selectedCompany._id)
+        : allPolicy;
+
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+
+    const policies = paginate(sorted, currentPage, pageSize);
+
+    return { totalCount: filtered.length, data: policies };
   };
 
   render() {
     const { pageSize, currentPage, sortColumn } = this.state;
-    const { totalCount, data: agents } = this.getPagedData();
+    const { totalCount, data: policies } = this.getPagedData();
 
     return (
       <React.Fragment>
         <div className="row">
           <div className="col">
             <Link
-              to="/agent/new"
+              to="/policyholderpolicy2/new"
               className="btn btn-primary pull-right"
               style={{ marginBottom: 20 }}
             >
               Add
             </Link>
-            <AgentsTable
-              agents={agents}
+            <PoliciesholderPolicyTable
+              policies={policies}
               sortColumn={sortColumn}
-              onDelete={this.handleDelete}
-              onUpdate={this.handleUpdate}
               onSort={this.handleSort}
             />
             <Pagination
@@ -79,4 +84,4 @@ class Agent extends Component {
   }
 }
 
-export default Agent;
+export default PolicyholderPolicy;
