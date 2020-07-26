@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const ip = require("ip");
 const express = require("express");
 const config = require("config");
+const cors = require("cors");
 
 const company = require("./routes/company");
 const agent = require("./routes/agent");
@@ -30,6 +31,7 @@ mongoose
   .catch((err) => console.error("Could not connect to MongoDB..."));
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 const port = process.env.PORT || 10443;

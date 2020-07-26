@@ -8,6 +8,7 @@ import PoliciesholderPolicyTable from "./policholderPolicyTable";
 import { paginate } from "../utils/paginate";
 
 import { getPolicies } from "../../services/policyService";
+import SearchBox from "../common/searchBox";
 
 class PolicyholderPolicy extends Component {
   state = {
@@ -16,6 +17,7 @@ class PolicyholderPolicy extends Component {
     currentPage: 1,
     pageSize: 4,
     sortColumn: { path: "title", order: "asc" },
+    searchQuery: "",
   };
 
   componentDidMount() {
@@ -30,19 +32,24 @@ class PolicyholderPolicy extends Component {
     this.setState({ sortColumn });
   };
 
+  handleSearch = (query) => {
+    this.setState({ searchQuery: query, currentPage: 1 });
+  };
+
   getPagedData = () => {
     const {
       pageSize,
       currentPage,
       policies: allPolicy,
       sortColumn,
-      selectedCompany,
+      searchQuery,
     } = this.state;
 
-    const filtered =
-      selectedCompany && selectedCompany._id
-        ? allPolicy.filter((p) => p.company._id === selectedCompany._id)
-        : allPolicy;
+    let filtered = allPolicy;
+    if (searchQuery)
+      filtered = allPolicy.filter((p) =>
+        p.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
@@ -52,7 +59,7 @@ class PolicyholderPolicy extends Component {
   };
 
   render() {
-    const { pageSize, currentPage, sortColumn } = this.state;
+    const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
     const { totalCount, data: policies } = this.getPagedData();
 
     return (
@@ -66,6 +73,7 @@ class PolicyholderPolicy extends Component {
             >
               Add
             </Link>
+            <SearchBox value={searchQuery} onChange={this.handleSearch} />
             <PoliciesholderPolicyTable
               policies={policies}
               sortColumn={sortColumn}

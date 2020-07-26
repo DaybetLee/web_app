@@ -10,12 +10,16 @@ import { paginate } from "../utils/paginate";
 import { getPolicies } from "../../services/policyService";
 import { getCompanies } from "../../services/companyService";
 
+import SearchBox from "./../common/searchBox";
+
 class Policy extends Component {
   state = {
     policies: [],
     company: [],
     currentPage: 1,
     pageSize: 4,
+    searchQuery: "",
+    selectedCompany: null,
     sortColumn: { path: "title", order: "asc" },
   };
 
@@ -25,16 +29,16 @@ class Policy extends Component {
     this.setState({ policies: getPolicies(), company });
   }
 
-  handleDelete = (policy) => {
-    console.log(policy);
-  };
-
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
   };
 
   handleCompanySelect = (company) => {
-    this.setState({ selectedCompany: company, currentPage: 1 });
+    this.setState({
+      selectedCompany: company,
+      searchQuery: "",
+      currentPage: 1,
+    });
   };
 
   handleSort = (sortColumn) => {
@@ -48,12 +52,17 @@ class Policy extends Component {
       policies: allPolicy,
       sortColumn,
       selectedCompany,
+      searchQuery,
     } = this.state;
 
-    const filtered =
-      selectedCompany && selectedCompany._id
-        ? allPolicy.filter((p) => p.company._id === selectedCompany._id)
-        : allPolicy;
+    let filtered = allPolicy;
+
+    if (searchQuery)
+      filtered = allPolicy.filter((p) =>
+        p.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    else if (selectedCompany && selectedCompany._id)
+      filtered = allPolicy.filter((p) => p.company._id === selectedCompany._id);
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
@@ -62,8 +71,16 @@ class Policy extends Component {
     return { totalCount: filtered.length, data: policies };
   };
 
+  handleSearch = (query) => {
+    this.setState({
+      searchQuery: query,
+      selectedCompany: null,
+      currentPage: 1,
+    });
+  };
+
   render() {
-    const { pageSize, currentPage, sortColumn } = this.state;
+    const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
     const { totalCount, data: policies } = this.getPagedData();
 
     return (
@@ -77,6 +94,7 @@ class Policy extends Component {
             />
           </div>
           <div className="col">
+            <SearchBox value={searchQuery} onChange={this.handleSearch} />
             <PoliciesTable
               policies={policies}
               sortColumn={sortColumn}

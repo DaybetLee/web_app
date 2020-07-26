@@ -9,11 +9,14 @@ import { paginate } from "../utils/paginate";
 
 import { getPolicyholders } from "../../services/policyholderService";
 
+import SearchBox from "./../common/searchBox";
+
 class Policyholder extends Component {
   state = {
     policyholders: [],
     currentPage: 1,
     pageSize: 4,
+    searchQuery: "",
     sortColumn: { path: "title", order: "asc" },
   };
 
@@ -33,24 +36,31 @@ class Policyholder extends Component {
     this.setState({ sortColumn });
   };
 
+  handleSearch = (query) => {
+    this.setState({ searchQuery: query, currentPage: 1 });
+  };
+
   getPagedData = () => {
     const {
       pageSize,
       currentPage,
       policyholders: allpolicyholder,
       sortColumn,
+      searchQuery,
     } = this.state;
-    const sorted = _.orderBy(
-      allpolicyholder,
-      [sortColumn.path],
-      [sortColumn.order]
-    );
+
+    let filtered = allpolicyholder;
+    if (searchQuery)
+      filtered = allpolicyholder.filter((p) =>
+        p.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
     const policyholders = paginate(sorted, currentPage, pageSize);
     return { totalCount: allpolicyholder.length, data: policyholders };
   };
 
   render() {
-    const { pageSize, currentPage, sortColumn } = this.state;
+    const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
     const { totalCount, data: policyholders } = this.getPagedData();
 
     return (
@@ -64,6 +74,7 @@ class Policyholder extends Component {
             >
               Add
             </Link>
+            <SearchBox value={searchQuery} onChange={this.handleSearch} />
             <PolicyholdersTable
               policyholders={policyholders}
               sortColumn={sortColumn}

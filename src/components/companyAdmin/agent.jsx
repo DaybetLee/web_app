@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import Pagination from "../common/pagination";
 import AgentsTable from "./agentsTable";
+import SearchBox from "../common/searchBox";
 
 import { paginate } from "../utils/paginate";
 
@@ -15,6 +16,7 @@ class Agent extends Component {
     currentPage: 1,
     pageSize: 4,
     sortColumn: { path: "title", order: "asc" },
+    searchQuery: "",
   };
 
   componentDidMount() {
@@ -37,15 +39,30 @@ class Agent extends Component {
     this.setState({ sortColumn });
   };
 
+  handleSearch = (query) => {
+    this.setState({ searchQuery: query, currentPage: 1 });
+  };
+
   getPagedData = () => {
-    const { pageSize, currentPage, agents: allAgent, sortColumn } = this.state;
-    const sorted = _.orderBy(allAgent, [sortColumn.path], [sortColumn.order]);
+    const {
+      pageSize,
+      currentPage,
+      agents: allAgent,
+      sortColumn,
+      searchQuery,
+    } = this.state;
+    let filtered = allAgent;
+    if (searchQuery)
+      filtered = allAgent.filter((a) =>
+        a.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
     const agents = paginate(sorted, currentPage, pageSize);
     return { totalCount: allAgent.length, data: agents };
   };
 
   render() {
-    const { pageSize, currentPage, sortColumn } = this.state;
+    const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
     const { totalCount, data: agents } = this.getPagedData();
 
     return (
@@ -59,6 +76,7 @@ class Agent extends Component {
             >
               Add
             </Link>
+            <SearchBox value={searchQuery} onChange={this.handleSearch} />
             <AgentsTable
               agents={agents}
               sortColumn={sortColumn}
