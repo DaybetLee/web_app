@@ -20,8 +20,9 @@ class PolicyholderPolicy extends Component {
     searchQuery: "",
   };
 
-  componentDidMount() {
-    this.setState({ policies: getPolicies() });
+  async componentDidMount() {
+    const { data: policies } = await getPolicies();
+    this.setState({ policies });
   }
 
   handlePageChange = (page) => {

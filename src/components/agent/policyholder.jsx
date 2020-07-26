@@ -20,8 +20,9 @@ class Policyholder extends Component {
     sortColumn: { path: "title", order: "asc" },
   };
 
-  componentDidMount() {
-    this.setState({ policyholders: getPolicyholders() });
+  async componentDidMount() {
+    const { data: policyholders } = await getPolicyholders();
+    this.setState({ policyholders });
   }
 
   handleView = (policyholder) => {

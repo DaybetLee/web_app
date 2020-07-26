@@ -19,8 +19,9 @@ class Agent extends Component {
     searchQuery: "",
   };
 
-  componentDidMount() {
-    this.setState({ agents: getAgents() });
+  async componentDidMount() {
+    const { data: agents } = await getAgents();
+    this.setState({ agents });
   }
 
   handleUpdate = (agent) => {

@@ -1,3 +1,14 @@
+import http from "../services/httpService";
+import { apiUrl } from "../config.json";
+
+/////////////////////////////////
+
+export function getPolicyholders() {
+  return http.get(apiUrl + "/policyholder");
+}
+
+////////////////////////////
+
 const policyholders = [
   {
     policy: [
@@ -101,9 +112,9 @@ const policyholders = [
   },
 ];
 
-export function getPolicyholders() {
-  return policyholders;
-}
+// export function getPolicyholders() {
+//   return policyholders;
+// }
 
 export function getPolicyholder(id) {
   return policyholders.find((m) => m._id === id);

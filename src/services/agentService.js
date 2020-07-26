@@ -1,4 +1,18 @@
+import http from "../services/httpService";
+import { apiUrl } from "../config.json";
+
 import * as companyAPI from "./companyService";
+
+/////////////////////////////////////
+export function getAgents() {
+  return http.get(apiUrl + "/agent");
+}
+
+// export function getAgent(id) {
+//   return agents.find((m) => m._id === id);
+// }
+
+////////////////////////////////////////
 
 const agents = [
   {
@@ -112,9 +126,9 @@ const agents = [
   },
 ];
 
-export function getAgents() {
-  return agents;
-}
+// export function getAgents() {
+//   return agents;
+// }
 
 export function getAgent(id) {
   return agents.find((m) => m._id === id);
@@ -131,9 +145,9 @@ export function saveAgent(agent) {
 
   agentInDb.mobile = agent.mobile;
 
-  // agentInDb.company = companyAPI.companies.find(
-  //   (c) => c._id === agent.companyId
-  // );
+  agentInDb.company = companyAPI.companies.find(
+    (c) => c._id === agent.companyId
+  );
 
   if (!agentInDb._id) {
     agentInDb._id = Date.now().toString();

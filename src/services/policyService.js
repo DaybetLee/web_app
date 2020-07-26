@@ -1,3 +1,13 @@
+import http from "../services/httpService";
+import { apiUrl } from "../config.json";
+
+/////////////////////////////////////////
+export function getPolicies() {
+  return http.get(apiUrl + "/policy");
+}
+
+//////////////////////////////////////////
+
 const policies = [
   {
     inforce: true,
@@ -82,9 +92,9 @@ const policies = [
   },
 ];
 
-export function getPolicies() {
-  return policies;
-}
+// export function getPolicies() {
+//   return policies;
+// }
 
 export function getPolicy(id) {
   return policies.find((m) => m._id === id);

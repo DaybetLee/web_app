@@ -1,3 +1,14 @@
+import http from "../services/httpService";
+import { apiUrl } from "../config.json";
+
+//////////////////////////////
+
+export function getCompanies() {
+  return http.get(apiUrl + "/company");
+}
+
+//////////////////////////////
+
 export const companies = [
   {
     isCompanyAdmin: true,
@@ -25,9 +36,9 @@ export const companies = [
   },
 ];
 
-export function getCompanies() {
-  return companies;
-}
+// export function getCompanies() {
+//   return companies;
+// }
 
 export function getCompany(id) {
   return companies.find((m) => m._id === id);

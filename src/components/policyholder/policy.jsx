@@ -23,10 +23,13 @@ class Policy extends Component {
     sortColumn: { path: "title", order: "asc" },
   };
 
-  componentDidMount() {
-    const company = [{ _id: "", name: "All Company" }, ...getCompanies()];
+  async componentDidMount() {
+    const { data } = await getCompanies();
+    const company = [{ _id: "", name: "All Company" }, ...data];
 
-    this.setState({ policies: getPolicies(), company });
+    const { data: policies } = await getPolicies();
+
+    this.setState({ policies, company });
   }
 
   handlePageChange = (page) => {
