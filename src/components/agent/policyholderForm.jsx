@@ -25,19 +25,25 @@ class PolicyholderForm extends Form {
     nric: Joi.string().min(9).required().label("Nric"),
   };
 
-  doSubmit = () => {
-    savePolicyholder(this.state.data);
+  doSubmit = async () => {
+    await savePolicyholder(this.state.data);
     this.props.history.push("/policyholder");
   };
 
-  componentDidMount() {
-    const policyholderId = this.props.match.params.id;
-    if (policyholderId === "new") return;
+  async populatePolicyholder() {
+    try {
+      const policyholderId = this.props.match.params.id;
+      if (policyholderId === "new") return;
+      const { data: policyholder } = await getPolicyholder(policyholderId);
+      this.setState({ data: this.mapToViewModel(policyholder) });
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        this.props.history.replace("/not-found");
+    }
+  }
 
-    const policyholder = getPolicyholder(policyholderId);
-    if (!policyholder) return this.props.history.replace("/not-found");
-
-    this.setState({ data: this.mapToViewModel(policyholder) });
+  async componentDidMount() {
+    await this.populatePolicyholder();
   }
 
   mapToViewModel(policyholder) {
@@ -59,20 +65,12 @@ class PolicyholderForm extends Form {
           {this.renderInput("email", "Email")}
           {this.renderInput("mobile", "Mobile")}
           {this.renderInput("nric", "Nric")}
-          {this.renderBackButton()}
           {this.renderButton("Save")}
         </form>
+        {this.renderBackButton()}
       </div>
     );
   }
 }
 
 export default PolicyholderForm;
-
-// name: Joi.string().required(),
-// email: Joi.string()
-//   .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-//   .required(),
-// nric: Joi.string().min(9).required(),
-// mobile: Joi.number().min(8).required(),
-// agentId: Joi.objectId().required(),

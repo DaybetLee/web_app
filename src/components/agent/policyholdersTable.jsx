@@ -20,11 +20,15 @@ class PolicyholdersTable extends Component {
     {
       path: "policy",
       label: "Policy",
-      content: (policyholder) => (
-        <Link to={`/policyholderpolicy/${policyholder._id}`}>
-          {policyholder.policy.length}
-        </Link>
-      ),
+      content: (policyholder) => {
+        if (policyholder.policy.length > 0) {
+          return (
+            <Link to={`/policyholderpolicy/${policyholder._id}`}>
+              {policyholder.policy.length}
+            </Link>
+          );
+        } else return <span>{policyholder.policy.length}</span>;
+      },
     },
   ];
   render() {

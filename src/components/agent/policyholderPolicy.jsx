@@ -7,8 +7,9 @@ import PoliciesholderPolicyTable from "./policholderPolicyTable";
 
 import { paginate } from "../utils/paginate";
 
-import { getPolicies } from "../../services/policyService";
 import SearchBox from "../common/searchBox";
+
+import { getPolicyholder } from "../../services/policyholderService";
 
 class PolicyholderPolicy extends Component {
   state = {
@@ -21,7 +22,10 @@ class PolicyholderPolicy extends Component {
   };
 
   async componentDidMount() {
-    const { data: policies } = await getPolicies();
+    const { data: policyholder } = await getPolicyholder(
+      this.props.match.params.id
+    );
+    const policies = [...policyholder.policy];
     this.setState({ policies });
   }
 
@@ -47,6 +51,7 @@ class PolicyholderPolicy extends Component {
     } = this.state;
 
     let filtered = allPolicy;
+
     if (searchQuery)
       filtered = allPolicy.filter((p) =>
         p.name.toLowerCase().startsWith(searchQuery.toLowerCase())
@@ -69,7 +74,7 @@ class PolicyholderPolicy extends Component {
           <div className="col">
             <Link
               to="/policyholderpolicy2/new"
-              className="btn btn-primary pull-right"
+              className="btn btn-success pull-right"
               style={{ marginBottom: 20 }}
             >
               Add
@@ -80,6 +85,13 @@ class PolicyholderPolicy extends Component {
               sortColumn={sortColumn}
               onSort={this.handleSort}
             />
+            <Link
+              to="/policyholder"
+              className="btn btn-primary pull-right"
+              style={{ marginBottom: 20 }}
+            >
+              Back
+            </Link>
             <Pagination
               itemsCount={totalCount}
               pageSize={pageSize}

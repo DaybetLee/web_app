@@ -70,7 +70,7 @@ class Policyholder extends Component {
           <div className="col">
             <Link
               to="/policyholder/new"
-              className="btn btn-primary pull-right"
+              className="btn btn-success pull-right"
               style={{ marginBottom: 20 }}
             >
               Add
@@ -96,12 +96,3 @@ class Policyholder extends Component {
 }
 
 export default Policyholder;
-
-// policy: [],
-// _id: "5f09a9e22882ec58b02e9179",
-// name: "policyholder9",
-// email: "policyholder9@example.com",
-// mobile: 12345678,
-// nric: "s1234567a",
-// agent: "5f09a9af2882ec58b02e9170",
-// __v: 0,

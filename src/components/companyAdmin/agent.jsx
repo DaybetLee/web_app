@@ -72,7 +72,7 @@ class Agent extends Component {
           <div className="col">
             <Link
               to="/agent/new"
-              className="btn btn-primary pull-right"
+              className="btn btn-success pull-right"
               style={{ marginBottom: 20 }}
             >
               Add

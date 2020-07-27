@@ -98,7 +98,7 @@ router.delete("/:id", async (req, res) => {
 // GET ID Request
 router.get("/:id", async (req, res) => {
   const policyholder = await Policyholder.findById(req.params.id).populate(
-    "agent"
+    "policy"
   );
 
   if (!policyholder)

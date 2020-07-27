@@ -9,6 +9,10 @@ class PolicyholderPolicyForm extends Form {
       name: "",
       inforce: "",
     },
+    policyholder: {
+      _id: "",
+      name: "",
+    },
     errors: {},
   };
 
@@ -18,14 +22,25 @@ class PolicyholderPolicyForm extends Form {
     inforce: Joi.boolean().required().label("Inforce"),
   };
 
-  componentDidMount() {
-    const policyId = this.props.match.params.id;
-    if (policyId === "new") return;
+  async populatePolicy() {
+    try {
+      const policyId = this.props.match.params.id;
+      if (policyId === "new") return;
 
-    const policy = getPolicy(policyId);
-    if (!policy) return this.props.history.replace("/not-found");
+      const { data: policy } = await getPolicy(policyId);
+      const policyholder = policy.policyholder;
+      this.setState({
+        data: this.mapToViewModel(policy),
+        policyholder: this.policyholderModel(policyholder),
+      });
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        this.props.history.replace("/not-found");
+    }
+  }
 
-    this.setState({ data: this.mapToViewModel(policy) });
+  async componentDidMount() {
+    await this.populatePolicy();
   }
 
   mapToViewModel(policy) {
@@ -36,25 +51,71 @@ class PolicyholderPolicyForm extends Form {
     };
   }
 
+  policyholderModel(policyholder) {
+    return {
+      _id: policyholder._id,
+      name: policyholder.name,
+    };
+  }
+
   // submit button temp in-force
-  doSubmit = () => {
-    savePolicy(this.state.data);
-    this.props.history.push("/policyholderpolicy/123");
+  doSubmit = async () => {
+    console.log(this.state.data);
+    const newI = addToObject(
+      this.state.data,
+      "policyholderId",
+      this.state.policyholder._id
+    );
+    console.log(newI);
+    await savePolicy(newI);
+
+    this.props.history.push(
+      "/policyholderpolicy/" + this.state.policyholder._id
+    );
   };
 
   render() {
+    // console.log(this.state.policyholder.name);
     return (
       <div>
-        <h1>Policyholder</h1>
+        <h1>{this.state.policyholder.name}</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("name", "Name")}
           {this.renderInput("inforce", "Inforce")}
-          {this.renderBackButton()}
           {this.renderButton("Save")}
         </form>
+        {this.renderBackButton()}
       </div>
     );
   }
 }
+var addToObject = function (obj, key, value, index) {
+  // Create a temp object and index variable
+  var temp = {};
+  var i = 0;
+
+  // Loop through the original object
+  for (var prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      // If the indexes match, add the new item
+      if (i === index && key && value) {
+        temp[key] = value;
+      }
+
+      // Add the current item in the loop to the temp obj
+      temp[prop] = obj[prop];
+
+      // Increase the count
+      i++;
+    }
+  }
+
+  // If no index, add to the end
+  if (!index && key && value) {
+    temp[key] = value;
+  }
+
+  return temp;
+};
 
 export default PolicyholderPolicyForm;

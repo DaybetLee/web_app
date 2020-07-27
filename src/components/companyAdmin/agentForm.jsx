@@ -22,19 +22,25 @@ class AgentForm extends Form {
     mobile: Joi.number().required().label("Mobile"),
   };
 
-  doSubmit = () => {
-    saveAgent(this.state.data);
+  doSubmit = async () => {
+    await saveAgent(this.state.data);
     this.props.history.push("/agent");
   };
 
-  componentDidMount() {
-    const agentId = this.props.match.params.id;
-    if (agentId === "new") return;
+  async populateAgent() {
+    try {
+      const agentId = this.props.match.params.id;
+      if (agentId === "new") return;
+      const { data: agent } = await getAgent(agentId);
+      this.setState({ data: this.mapToViewModel(agent) });
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        return this.props.history.replace("/not-found");
+    }
+  }
 
-    const agent = getAgent(agentId);
-    if (!agent) return this.props.history.replace("/not-found");
-
-    this.setState({ data: this.mapToViewModel(agent) });
+  async componentDidMount() {
+    await this.populateAgent();
   }
 
   mapToViewModel(agent) {
@@ -56,20 +62,12 @@ class AgentForm extends Form {
           {this.renderInput("email", "Email")}
           {this.renderInput("password", "Password", "password")}
           {this.renderInput("mobile", "Mobile")}
-          {this.renderBackButton()}
           {this.renderButton("Save")}
         </form>
+        {this.renderBackButton()}
       </div>
     );
   }
 }
 
 export default AgentForm;
-
-// name: Joi.string().required(),
-// email: Joi.string()
-//   .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-//   .required(),
-// password: Joi.string().min(5).required(),
-// mobile: Joi.number().min(8).required(),
-// companyId: Joi.objectId().required(),

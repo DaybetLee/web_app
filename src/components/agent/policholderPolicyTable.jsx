@@ -18,7 +18,7 @@ class PolicyholderPolicyTable extends Component {
       content: (policy) => (
         <Link
           to={`/policyholderpolicy2/${policy._id}`}
-          className="btn btn-primary pull-right"
+          className="btn btn-info pull-right"
           style={{ marginBottom: 20 }}
         >
           Edit

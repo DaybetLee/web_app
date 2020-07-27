@@ -28,7 +28,6 @@ class Policy extends Component {
     const company = [{ _id: "", name: "All Company" }, ...data];
 
     const { data: policies } = await getPolicies();
-
     this.setState({ policies, company });
   }
 
