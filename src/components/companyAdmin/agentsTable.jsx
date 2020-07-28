@@ -12,17 +12,7 @@ class AgentsTable extends Component {
     },
     { path: "email", label: "Email" },
     { path: "mobile", label: "Mobile" },
-    // {
-    //   key: "update",
-    //   content: (agent) => (
-    //     <button
-    //       onClick={() => this.props.onUpdate(agent)}
-    //       className="btn btn-primary btn-sm"
-    //     >
-    //       Update
-    //     </button>
-    //   ),
-    // },
+
     {
       key: "resign",
       content: (agent) => (

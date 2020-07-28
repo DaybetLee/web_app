@@ -5,6 +5,8 @@ import {
   getPolicyholder,
   savePolicyholder,
 } from "../../services/policyholderService";
+import jwtDecode from "jwt-decode";
+import { addToObject } from "./../utils/addToObject";
 
 class PolicyholderForm extends Form {
   state = {
@@ -14,6 +16,7 @@ class PolicyholderForm extends Form {
       mobile: "",
       nric: "",
     },
+    agent: {},
     errors: {},
   };
 
@@ -26,7 +29,12 @@ class PolicyholderForm extends Form {
   };
 
   doSubmit = async () => {
-    await savePolicyholder(this.state.data);
+    const newData = addToObject(
+      this.state.data,
+      "agentId",
+      this.state.agent._id
+    );
+    await savePolicyholder(newData);
     this.props.history.push("/policyholder");
   };
 
@@ -43,7 +51,12 @@ class PolicyholderForm extends Form {
   }
 
   async componentDidMount() {
-    await this.populatePolicyholder();
+    try {
+      const jwt = localStorage.getItem("token");
+      const agent = jwtDecode(jwt);
+      this.setState({ agent });
+      await this.populatePolicyholder();
+    } catch (ex) {}
   }
 
   mapToViewModel(policyholder) {

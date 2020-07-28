@@ -25,7 +25,7 @@ const superadminSchema = new mongoose.Schema({
 
 superadminSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
-    { _id: this._id, isSuperadmin: this.isSuperadmin },
+    { _id: this._id, name: this.name, isSuperadmin: this.isSuperadmin },
     "jwtPrivateKey" // config.get("jwtPrivateKey")
   );
   return token;

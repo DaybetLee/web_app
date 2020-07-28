@@ -11,6 +11,10 @@ export function getPolicyholder(id) {
   return http.get(apiEndpoint + "/" + id);
 }
 
+export function getAgentPolicyH(id) {
+  return http.get(apiEndpoint + "/param?aid=" + id);
+}
+
 export function savePolicyholder(policyholder) {
   if (policyholder._id) {
     const body = { ...policyholder };

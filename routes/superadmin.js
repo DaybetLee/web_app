@@ -40,7 +40,11 @@ router.post("/", async (req, res) => {
   );
 
   await superadmin.save();
-  res.send(superadmin);
+  const token = superadmin.generateAuthToken();
+  res
+    .header("x-auth-token", token)
+    .header("access-control-expose-headers", "x-auth-token")
+    .send(superadmin);
 });
 
 // PUT request

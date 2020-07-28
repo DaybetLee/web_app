@@ -1,7 +1,7 @@
-import React from "react";
-import "./App.css";
-
 import { Route, Switch, Redirect } from "react-router-dom";
+import React, { Component } from "react";
+import jwtDecode from "jwt-decode";
+import "./App.css";
 
 import NavBar from "./components/common/navbar";
 import Agent from "./components/companyAdmin/agent";
@@ -10,42 +10,63 @@ import Policy from "./components/policyholder/policy";
 import policyholderForm from "./components/agent/policyholderForm";
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
-import agentForm from "./components/companyAdmin/agentForm";
+import SuccessRegisterForm from "./components/successRegisterForm";
+import AgentForm from "./components/companyAdmin/agentForm";
 import NotFound from "./components/notFound";
 import PolicyholderPolicy from "./components/agent/policyholderPolicy";
 import PolicyholderPolicyForm from "./components/agent/policyholderPolicyForm.jsx";
 
-function App() {
-  return (
-    <React.Fragment>
-      <NavBar />
-      <main className="container">
-        <Switch>
-          <Route
-            // temp to /policyholderpolicy2/:id due to conflict
-            path="/policyholderpolicy2/:id"
-            component={PolicyholderPolicyForm}
-          />
-          <Route path="/register" exact component={RegisterForm} />
-          <Route path="/login" exact component={LoginForm} />
-          <Route path="/agent" exact component={Agent} />
-          <Route path="/agent/:id" component={agentForm} />
-          <Route path="/policyholder" exact component={Policyholder} />
+class App extends Component {
+  state = {};
 
-          <Route
-            path="/policyholderpolicy/:id"
-            component={PolicyholderPolicy}
-          />
+  componentDidMount() {
+    try {
+      const jwt = localStorage.getItem("token");
+      const user = jwtDecode(jwt);
+      this.setState({ user });
+    } catch (ex) {}
+  }
+  render() {
+    return (
+      <React.Fragment>
+        <NavBar user={this.state.user} />
+        <main className="container">
+          <Switch>
+            <Route
+              // temp to /policyholderpolicy2/:id due to conflict
+              path="/policyholderpolicy2/:id"
+              component={PolicyholderPolicyForm}
+            />
+            <Route path="/register" exact component={RegisterForm} />
+            <Route path="/login" exact component={LoginForm} />
+            <Route
+              user={this.state.user}
+              path="/agent"
+              exact
+              component={Agent}
+            />
+            <Route path="/agent/:id" component={AgentForm} />
+            <Route path="/policyholder" exact component={Policyholder} />
 
-          <Route path="/policyholder/:id" component={policyholderForm} />
-          <Route path="/policy" exact component={Policy} />
-          <Route path="/you-shall-not-pass-!" exact component={NotFound} />
-          <Redirect from="/" exact to="/login" />
-          <Redirect to="/you-shall-not-pass-!" />
-        </Switch>
-      </main>
-    </React.Fragment>
-  );
+            <Route
+              path="/policyholderpolicy/:id"
+              component={PolicyholderPolicy}
+            />
+
+            <Route path="/policyholder/:id" component={policyholderForm} />
+            <Route path="/policy" exact component={Policy} />
+            <Route path="/you-shall-not-pass-!" exact component={NotFound} />
+            <Redirect from="/" exact to="/login" />
+            <Route
+              path="/register-successful-redirect"
+              exact
+              component={SuccessRegisterForm}
+            />
+            <Redirect to="/you-shall-not-pass-!" />
+          </Switch>
+        </main>
+      </React.Fragment>
+    );
+  }
 }
-
 export default App;

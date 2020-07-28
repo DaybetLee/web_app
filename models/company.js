@@ -25,7 +25,7 @@ const companySchema = new mongoose.Schema({
 
 companySchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
-    { _id: this._id, isCompanyAdmin: this.isCompanyAdmin },
+    { _id: this._id, name: this.name, isCompanyAdmin: this.isCompanyAdmin },
     "jwtPrivateKey" // config.get("jwtPrivateKey")
   );
   return token;

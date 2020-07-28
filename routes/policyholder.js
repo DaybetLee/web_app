@@ -19,6 +19,15 @@ router.get("/", async (req, res) => {
   res.send(policyholder);
 });
 
+router.get("/param", async (req, res) => {
+  const agent = await Policyholder.find({
+    $or: [{ agent: req.query.aid }, { email: req.query.email }],
+  })
+    .sort("name")
+    .populate("policy");
+  res.send(agent);
+});
+
 // POST Request
 router.post("/", async (req, res) => {
   const { error } = validatePolicyholder(req.body);

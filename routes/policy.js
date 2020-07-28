@@ -13,8 +13,17 @@ const { Company } = require("../models/company");
 
 // GET Request
 router.get("/", async (req, res) => {
-  const policy = await Policy.find().sort("name").populate("company");
+  const policy = await Policy.find()
+    .sort("name")
+    .populate("company policyholder");
   res.send(policy);
+});
+
+router.get("/param", async (req, res) => {
+  const agent = await Policy.find({ policyholder: req.query.email })
+    .sort("name")
+    .populate();
+  res.send(agent);
 });
 
 // POST Request

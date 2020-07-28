@@ -14,6 +14,14 @@ const { Company } = require("../models/company");
 // GET Request
 router.get("/", async (req, res) => {
   const agent = await Agent.find().sort("name").populate();
+
+  res.send(agent);
+});
+
+router.get("/param", async (req, res) => {
+  const agent = await Agent.find({ company: req.query.cid })
+    .sort("name")
+    .populate();
   res.send(agent);
 });
 
@@ -42,7 +50,11 @@ router.post("/", async (req, res) => {
   agent.password = await bcrypt.hash(agent.password, await bcrypt.genSalt(10));
 
   await agent.save();
-  res.send(agent);
+  const token = agent.generateAuthToken();
+  res
+    .header("x-auth-token", token)
+    .header("access-control-expose-headers", "x-auth-token")
+    .send(agent);
 });
 
 // PUT request

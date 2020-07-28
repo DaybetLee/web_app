@@ -11,6 +11,10 @@ export function getAgent(id) {
   return http.get(apiEndpoint + "/" + id);
 }
 
+export function getCompanyAgent(id) {
+  return http.get(apiEndpoint + "/param?cid=" + id);
+}
+
 export function saveAgent(agent) {
   if (agent._id) {
     const body = { ...agent };

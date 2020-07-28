@@ -7,9 +7,11 @@ import PolicyholdersTable from "./policyholdersTable";
 
 import { paginate } from "../utils/paginate";
 
-import { getPolicyholders } from "../../services/policyholderService";
+import { getAgentPolicyH } from "../../services/policyholderService";
 
 import SearchBox from "./../common/searchBox";
+
+import jwtDecode from "jwt-decode";
 
 class Policyholder extends Component {
   state = {
@@ -21,8 +23,12 @@ class Policyholder extends Component {
   };
 
   async componentDidMount() {
-    const { data: policyholders } = await getPolicyholders();
-    this.setState({ policyholders });
+    try {
+      const jwt = localStorage.getItem("token");
+      const agent = jwtDecode(jwt);
+      const { data: policyholders } = await getAgentPolicyH(agent._id);
+      this.setState({ policyholders });
+    } catch (ex) {}
   }
 
   handleView = (policyholder) => {

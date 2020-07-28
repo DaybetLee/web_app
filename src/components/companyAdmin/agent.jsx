@@ -8,7 +8,9 @@ import SearchBox from "../common/searchBox";
 
 import { paginate } from "../utils/paginate";
 
-import { getAgents } from "../../services/agentService.js";
+import { getCompanyAgent } from "../../services/agentService.js";
+
+import jwtDecode from "jwt-decode";
 
 class Agent extends Component {
   state = {
@@ -20,8 +22,12 @@ class Agent extends Component {
   };
 
   async componentDidMount() {
-    const { data: agents } = await getAgents();
-    this.setState({ agents });
+    try {
+      const jwt = localStorage.getItem("token");
+      const company = jwtDecode(jwt);
+      const { data: agents } = await getCompanyAgent(company._id);
+      this.setState({ agents });
+    } catch (ex) {}
   }
 
   handleUpdate = (agent) => {

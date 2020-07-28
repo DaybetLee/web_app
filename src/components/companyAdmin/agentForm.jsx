@@ -2,6 +2,8 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "../common/form";
 import { getAgent, saveAgent } from "../../services/agentService";
+import jwtDecode from "jwt-decode";
+import { addToObject } from "./../utils/addToObject";
 
 class AgentForm extends Form {
   state = {
@@ -11,6 +13,7 @@ class AgentForm extends Form {
       password: "",
       mobile: "",
     },
+    company: {},
     errors: {},
   };
 
@@ -23,7 +26,12 @@ class AgentForm extends Form {
   };
 
   doSubmit = async () => {
-    await saveAgent(this.state.data);
+    const newData = addToObject(
+      this.state.data,
+      "companyId",
+      this.state.company._id
+    );
+    await saveAgent(newData);
     this.props.history.push("/agent");
   };
 
@@ -40,7 +48,12 @@ class AgentForm extends Form {
   }
 
   async componentDidMount() {
-    await this.populateAgent();
+    try {
+      const jwt = localStorage.getItem("token");
+      const company = jwtDecode(jwt);
+      this.setState({ company });
+      await this.populateAgent();
+    } catch (ex) {}
   }
 
   mapToViewModel(agent) {

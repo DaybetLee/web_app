@@ -44,7 +44,11 @@ router.post("/", async (req, res) => {
   );
 
   await company.save();
-  res.send(company);
+  const token = company.generateAuthToken();
+  res
+    .header("x-auth-token", token)
+    .header("access-control-expose-headers", "x-auth-token")
+    .send(company);
 });
 
 // PUT request

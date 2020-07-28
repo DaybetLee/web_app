@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
         role[i].password
       );
       if (!validPassword)
-        return res.status(400).send("Invalid email or password.2");
+        return res.status(400).send("Invalid email or password.");
 
       const token = role[i].generateAuthToken();
       res.send(token);
