@@ -7,10 +7,13 @@ import PoliciesTable from "./policiesTable";
 
 import { paginate } from "../utils/paginate";
 
-import { getPolicies } from "../../services/policyService";
 import { getCompanies } from "../../services/companyService";
+import { getPolicyHPolicy } from "../../services/policyholderService";
 
 import SearchBox from "./../common/searchBox";
+import auth from "../../services/authService";
+
+import { extractPolicies } from "./../utils/extractPolicies";
 
 class Policy extends Component {
   state = {
@@ -24,11 +27,17 @@ class Policy extends Component {
   };
 
   async componentDidMount() {
-    const { data } = await getCompanies();
-    const company = [{ _id: "", name: "All Company" }, ...data];
+    try {
+      const { data } = await getCompanies();
+      const company = [{ _id: "", name: "All Company" }, ...data];
 
-    const { data: policies } = await getPolicies();
-    this.setState({ policies, company });
+      const policyholder = auth.getCurrentUser();
+
+      const { data: obj } = await getPolicyHPolicy(policyholder.email);
+      const policies = extractPolicies(obj);
+
+      this.setState({ policies, company });
+    } catch (ex) {}
   }
 
   handlePageChange = (page) => {
@@ -64,7 +73,7 @@ class Policy extends Component {
         p.name.toLowerCase().startsWith(searchQuery.toLowerCase())
       );
     else if (selectedCompany && selectedCompany._id)
-      filtered = allPolicy.filter((p) => p.company._id === selectedCompany._id);
+      filtered = allPolicy.filter((p) => p.company === selectedCompany._id);
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 

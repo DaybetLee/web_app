@@ -3,6 +3,7 @@ import Joi from "joi-browser";
 import Form from "../common/form";
 import { getPolicy, savePolicy } from "../../services/policyService";
 import { addToObject } from "./../utils/addToObject";
+import auth from "../../services/authService";
 
 class PolicyholderPolicyForm extends Form {
   state = {
@@ -14,6 +15,7 @@ class PolicyholderPolicyForm extends Form {
       _id: "",
       name: "",
     },
+    agent: {},
     errors: {},
   };
 
@@ -26,7 +28,7 @@ class PolicyholderPolicyForm extends Form {
   async populatePolicy() {
     try {
       const policyId = this.props.match.params.id;
-      if (policyId === "new") return;
+      // if (policyId === "5f1f12ec38e7835064b60ba7") return;
 
       const { data: policy } = await getPolicy(policyId);
       const policyholder = policy.policyholder;
@@ -35,13 +37,23 @@ class PolicyholderPolicyForm extends Form {
         policyholder: this.policyholderModel(policyholder),
       });
     } catch (ex) {
-      if (ex.response && ex.response.status === 404)
-        this.props.history.replace("/not-found");
+      const policyholderid = this.props.match.params.id;
+      this.setState({
+        policyholder: {
+          _id: policyholderid,
+        },
+      });
+      // if (ex.response && ex.response.status === 404)
+      // this.props.history.replace("/not-found");
     }
   }
 
   async componentDidMount() {
-    await this.populatePolicy();
+    try {
+      const agent = auth.getCurrentUser();
+      this.setState({ agent });
+      await this.populatePolicy();
+    } catch (ex) {}
   }
 
   mapToViewModel(policy) {
@@ -61,13 +73,16 @@ class PolicyholderPolicyForm extends Form {
 
   // submit button temp in-force
   doSubmit = async () => {
-    console.log(this.state.data);
-    const newData = addToObject(
+    const addedPolicyholder = addToObject(
       this.state.data,
       "policyholderId",
       this.state.policyholder._id
     );
-    console.log(newData);
+    const newData = addToObject(
+      addedPolicyholder,
+      "companyId",
+      this.state.agent.company
+    );
     await savePolicy(newData);
 
     this.props.history.push(

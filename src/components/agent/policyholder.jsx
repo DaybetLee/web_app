@@ -11,7 +11,7 @@ import { getAgentPolicyH } from "../../services/policyholderService";
 
 import SearchBox from "./../common/searchBox";
 
-import jwtDecode from "jwt-decode";
+import auth from "../../services/authService";
 
 class Policyholder extends Component {
   state = {
@@ -24,8 +24,7 @@ class Policyholder extends Component {
 
   async componentDidMount() {
     try {
-      const jwt = localStorage.getItem("token");
-      const agent = jwtDecode(jwt);
+      const agent = auth.getCurrentUser();
       const { data: policyholders } = await getAgentPolicyH(agent._id);
       this.setState({ policyholders });
     } catch (ex) {}

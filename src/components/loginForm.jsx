@@ -3,8 +3,7 @@ import Joi from "joi-browser";
 import Form from "./common/form";
 import Brand from "../assets/brand/IPM Brand.png";
 import { Link } from "react-router-dom";
-import { login } from "./../services/authService";
-import jwtDecode from "jwt-decode";
+import auth from "./../services/authService";
 
 class LoginForm extends Form {
   state = {
@@ -21,9 +20,8 @@ class LoginForm extends Form {
   doSubmit = async () => {
     try {
       const { data } = this.state;
-      const { data: jwt } = await login(data.email, data.password);
-      localStorage.setItem("token", jwt);
-      const user = jwtDecode(jwt);
+      await auth.login(data.email, data.password);
+      const user = auth.getCurrentUser();
       if (user.isAgent) window.location = "/policyholder";
       else if (user.isCompanyAdmin) window.location = "/agent";
       else if (user.isUser) window.location = "/policy";

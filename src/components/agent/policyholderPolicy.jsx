@@ -67,13 +67,13 @@ class PolicyholderPolicy extends Component {
   render() {
     const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
     const { totalCount, data: policies } = this.getPagedData();
-
+    const link = this.props.match.params.id;
     return (
       <React.Fragment>
         <div className="row">
           <div className="col">
             <Link
-              to="/policyholderpolicy2/new"
+              to={"/policyholderpolicy2/" + link}
               className="btn btn-success pull-right"
               style={{ marginBottom: 20 }}
             >

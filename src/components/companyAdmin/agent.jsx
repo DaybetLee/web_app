@@ -10,7 +10,7 @@ import { paginate } from "../utils/paginate";
 
 import { getCompanyAgent } from "../../services/agentService.js";
 
-import jwtDecode from "jwt-decode";
+import auth from "../../services/authService";
 
 class Agent extends Component {
   state = {
@@ -23,8 +23,7 @@ class Agent extends Component {
 
   async componentDidMount() {
     try {
-      const jwt = localStorage.getItem("token");
-      const company = jwtDecode(jwt);
+      const company = auth.getCurrentUser();
       const { data: agents } = await getCompanyAgent(company._id);
       this.setState({ agents });
     } catch (ex) {}

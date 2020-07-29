@@ -109,8 +109,8 @@ router.delete("/:id", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const policy = await Policy.findById(req.params.id).populate("policyholder");
 
-  if (!policy)
-    return res.status(404).send("404 Page Not Found. Policy Not Found.");
+  // if (!policy)
+  //   return res.status(404).send("404 Page Not Found. Policy Not Found.");
   res.send(policy);
 });
 

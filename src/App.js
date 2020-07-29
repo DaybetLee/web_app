@@ -1,6 +1,6 @@
 import { Route, Switch, Redirect } from "react-router-dom";
 import React, { Component } from "react";
-import jwtDecode from "jwt-decode";
+import auth from "./services/authService";
 import "./App.css";
 
 import NavBar from "./components/common/navbar";
@@ -15,14 +15,14 @@ import AgentForm from "./components/companyAdmin/agentForm";
 import NotFound from "./components/notFound";
 import PolicyholderPolicy from "./components/agent/policyholderPolicy";
 import PolicyholderPolicyForm from "./components/agent/policyholderPolicyForm.jsx";
+import Logout from "./components/logout";
 
 class App extends Component {
   state = {};
 
   componentDidMount() {
     try {
-      const jwt = localStorage.getItem("token");
-      const user = jwtDecode(jwt);
+      const user = auth.getCurrentUser();
       this.setState({ user });
     } catch (ex) {}
   }
@@ -39,6 +39,7 @@ class App extends Component {
             />
             <Route path="/register" exact component={RegisterForm} />
             <Route path="/login" exact component={LoginForm} />
+            <Route path="/logout" component={Logout} />
             <Route
               user={this.state.user}
               path="/agent"

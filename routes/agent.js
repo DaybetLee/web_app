@@ -48,6 +48,7 @@ router.post("/", async (req, res) => {
   });
 
   agent.password = await bcrypt.hash(agent.password, await bcrypt.genSalt(10));
+  console.log(agent.password);
 
   await agent.save();
   const token = agent.generateAuthToken();

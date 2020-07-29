@@ -5,8 +5,8 @@ import {
   getPolicyholder,
   savePolicyholder,
 } from "../../services/policyholderService";
-import jwtDecode from "jwt-decode";
 import { addToObject } from "./../utils/addToObject";
+import auth from "../../services/authService";
 
 class PolicyholderForm extends Form {
   state = {
@@ -52,8 +52,7 @@ class PolicyholderForm extends Form {
 
   async componentDidMount() {
     try {
-      const jwt = localStorage.getItem("token");
-      const agent = jwtDecode(jwt);
+      const agent = auth.getCurrentUser();
       this.setState({ agent });
       await this.populatePolicyholder();
     } catch (ex) {}
