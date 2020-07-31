@@ -1,6 +1,6 @@
 import React from "react";
-import Logo from "../../assets/brand/IPM Logo.png";
 import { NavLink } from "react-router-dom";
+import Logo from "../../assets/brand/IPM Logo.png";
 
 const Navbar = ({ user }) => {
   return (
@@ -24,9 +24,7 @@ const Navbar = ({ user }) => {
         <div className="navbar-nav">
           {user && (
             <React.Fragment>
-              <NavLink className="nav-item nav-link" to="/profile">
-                {user.name}
-              </NavLink>
+              <span className="nav-item nav-link">{user.name}</span>
               <NavLink className="nav-item nav-link" to="/logout">
                 Logout
               </NavLink>

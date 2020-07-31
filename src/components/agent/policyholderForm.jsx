@@ -1,12 +1,12 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "../common/form";
+import { addToObject } from "./../utils/addToObject";
+import auth from "../../services/authService";
 import {
   getPolicyholder,
   savePolicyholder,
 } from "../../services/policyholderService";
-import { addToObject } from "./../utils/addToObject";
-import auth from "../../services/authService";
 
 class PolicyholderForm extends Form {
   state = {

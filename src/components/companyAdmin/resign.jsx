@@ -1,16 +1,24 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { Link } from "react-router-dom";
-import PoliciesholderPolicyTable from "./policholderPolicyTable";
+import ResignTable from "./resignTable";
 import SearchBox from "../common/searchBox";
 import Pagination from "../common/pagination";
 import { paginate } from "../utils/paginate";
-import { getPolicyholder } from "../../services/policyholderService";
+import {
+  getCompanyAgent,
+  getAgent,
+  deactivateAgent,
+} from "../../services/agentService.js";
+import {
+  changeAgent,
+  getPolicyholder,
+} from "./../../services/policyholderService";
+import auth from "../../services/authService";
 
-class PolicyholderPolicy extends Component {
+class Resign extends Component {
   state = {
-    policies: [],
-    company: [],
+    agents: [],
     currentPage: 1,
     pageSize: 4,
     sortColumn: { path: "title", order: "asc" },
@@ -18,12 +26,25 @@ class PolicyholderPolicy extends Component {
   };
 
   async componentDidMount() {
-    const { data: policyholder } = await getPolicyholder(
-      this.props.match.params.id
-    );
-    const policies = [...policyholder.policy];
-    this.setState({ policies });
+    try {
+      const company = auth.getCurrentUser();
+      const { data: agents } = await getCompanyAgent(company._id);
+      this.setState({ agents });
+    } catch (ex) {}
   }
+
+  handleTransfer = async (agent) => {
+    const { data: resignee } = await getAgent(this.props.match.params.id);
+    const { data: newOwner } = await getAgent(agent._id);
+    for (let i = 0; i < resignee.policyholder.length; i++) {
+      const { data: policyholder } = await getPolicyholder(
+        resignee.policyholder[i]._id
+      );
+      await changeAgent(policyholder, newOwner._id);
+    }
+    await deactivateAgent(resignee);
+    this.props.history.push("/agent");
+  };
 
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
@@ -41,48 +62,38 @@ class PolicyholderPolicy extends Component {
     const {
       pageSize,
       currentPage,
-      policies: allPolicy,
+      agents: allAgent,
       sortColumn,
       searchQuery,
     } = this.state;
-
-    let filtered = allPolicy;
-
+    let filtered = allAgent;
     if (searchQuery)
-      filtered = allPolicy.filter((p) =>
-        p.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+      filtered = allAgent.filter((a) =>
+        a.name.toLowerCase().startsWith(searchQuery.toLowerCase())
       );
-
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
-
-    const policies = paginate(sorted, currentPage, pageSize);
-
-    return { totalCount: filtered.length, data: policies };
+    const agents = paginate(sorted, currentPage, pageSize);
+    return { totalCount: allAgent.length, data: agents };
   };
 
   render() {
     const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
-    const { totalCount, data: policies } = this.getPagedData();
-    const link = this.props.match.params.id;
+    const { totalCount, data: agents } = this.getPagedData();
+
     return (
       <React.Fragment>
         <div className="row">
           <div className="col">
-            <Link
-              to={"/policyholderpolicy2/" + link}
-              className="btn btn-success pull-right"
-              style={{ marginBottom: 20 }}
-            >
-              Add
-            </Link>
             <SearchBox value={searchQuery} onChange={this.handleSearch} />
-            <PoliciesholderPolicyTable
-              policies={policies}
+            <ResignTable
+              agents={agents}
               sortColumn={sortColumn}
+              onTransfer={this.handleTransfer}
               onSort={this.handleSort}
+              resigneeId={this.props.match.params.id}
             />
             <Link
-              to="/policyholder"
+              to="/agent"
               className="btn btn-primary pull-right"
               style={{ marginBottom: 20 }}
             >
@@ -101,4 +112,4 @@ class PolicyholderPolicy extends Component {
   }
 }
 
-export default PolicyholderPolicy;
+export default Resign;

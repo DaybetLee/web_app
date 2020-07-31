@@ -1,15 +1,11 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import { Link } from "react-router-dom";
-
-import Pagination from "../common/pagination";
 import AgentsTable from "./agentsTable";
 import SearchBox from "../common/searchBox";
-
+import Pagination from "../common/pagination";
 import { paginate } from "../utils/paginate";
-
 import { getCompanyAgent } from "../../services/agentService.js";
-
 import auth from "../../services/authService";
 
 class Agent extends Component {
@@ -28,14 +24,6 @@ class Agent extends Component {
       this.setState({ agents });
     } catch (ex) {}
   }
-
-  handleUpdate = (agent) => {
-    console.log(agent);
-  };
-
-  handleDelete = (agent) => {
-    console.log(agent.name);
-  };
 
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
@@ -86,8 +74,6 @@ class Agent extends Component {
             <AgentsTable
               agents={agents}
               sortColumn={sortColumn}
-              onDelete={this.handleDelete}
-              onUpdate={this.handleUpdate}
               onSort={this.handleSort}
             />
             <Pagination

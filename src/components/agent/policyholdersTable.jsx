@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-
-import Table from "../common/table";
 import { Link } from "react-router-dom";
+import Table from "../common/table";
 
 class PolicyholdersTable extends Component {
   columns = [

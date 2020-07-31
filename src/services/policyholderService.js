@@ -1,5 +1,6 @@
 import http from "../services/httpService";
 import { apiUrl } from "../config.json";
+import { addToObject } from "./../components/utils/addToObject";
 
 const apiEndpoint = apiUrl + "/policyholder";
 
@@ -17,6 +18,13 @@ export function getAgentPolicyH(id) {
 
 export function getPolicyHPolicy(email) {
   return http.get(apiEndpoint + "/param?email=" + email);
+}
+
+export function changeAgent(policyholder, agentId) {
+  const { email, mobile, name, nric } = { ...policyholder };
+  let body = { email, mobile, name, nric };
+  body = addToObject(body, "agentId", agentId);
+  return http.put(apiEndpoint + "/" + policyholder._id, body);
 }
 
 export function savePolicyholder(policyholder) {

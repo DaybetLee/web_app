@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-
 import Table from "../common/table";
-import Inforce from "../common/inforce";
+import TickCrossSym from "../common/tickCrossSym";
 
 class PoliciesTable extends Component {
   columns = [
@@ -17,7 +16,7 @@ class PoliciesTable extends Component {
     {
       path: "inforce",
       label: "Inforce",
-      content: (policy) => <Inforce true={policy.inforce} />,
+      content: (policy) => <TickCrossSym true={policy.inforce} />,
     },
   ];
 

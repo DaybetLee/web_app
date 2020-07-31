@@ -1,9 +1,9 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "../common/form";
+import { addToObject } from "./../utils/addToObject";
 import { getAgent, saveAgent } from "../../services/agentService";
 import auth from "../../services/authService";
-import { addToObject } from "./../utils/addToObject";
 
 class AgentForm extends Form {
   state = {
@@ -22,7 +22,7 @@ class AgentForm extends Form {
     name: Joi.string().required().label("Name"),
     email: Joi.string().required().email().label("Email"),
     password: Joi.string().required().min(5).label("Password"),
-    mobile: Joi.number().required().label("Mobile"),
+    mobile: Joi.number().required().integer().label("Mobile"),
   };
 
   doSubmit = async () => {
@@ -56,7 +56,6 @@ class AgentForm extends Form {
   }
 
   mapToViewModel(agent) {
-    console.log(agent.password);
     return {
       _id: agent._id,
       name: agent.name,

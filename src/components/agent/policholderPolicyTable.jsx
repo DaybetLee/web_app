@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-
-import Table from "../common/table";
-import Inforce from "../common/inforce";
 import { Link } from "react-router-dom";
+import Table from "../common/table";
+import TickCrossSym from "../common/tickCrossSym";
 
 class PolicyholderPolicyTable extends Component {
   columns = [
@@ -18,7 +17,7 @@ class PolicyholderPolicyTable extends Component {
     {
       path: "inforce",
       label: "Inforce",
-      content: (policy) => <Inforce true={policy.inforce} />,
+      content: (policy) => <TickCrossSym true={policy.inforce} />,
     },
     {
       key: "Edit",

@@ -1,9 +1,9 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "../common/form";
-import { getPolicy, savePolicy } from "../../services/policyService";
 import { addToObject } from "./../utils/addToObject";
 import auth from "../../services/authService";
+import { getPolicy, savePolicy } from "../../services/policyService";
 
 class PolicyholderPolicyForm extends Form {
   state = {
@@ -73,16 +73,12 @@ class PolicyholderPolicyForm extends Form {
 
   // submit button temp in-force
   doSubmit = async () => {
-    const addedPolicyholder = addToObject(
+    let newData = addToObject(
       this.state.data,
       "policyholderId",
       this.state.policyholder._id
     );
-    const newData = addToObject(
-      addedPolicyholder,
-      "companyId",
-      this.state.agent.company
-    );
+    newData = addToObject(newData, "companyId", this.state.agent.company);
     await savePolicy(newData);
 
     this.props.history.push(

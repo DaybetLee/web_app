@@ -1,19 +1,14 @@
 import React, { Component } from "react";
 import _ from "lodash";
-
+import PoliciesTable from "./policiesTable";
+import SearchBox from "../common/searchBox";
 import Pagination from "../common/pagination";
 import ListGroup from "../common/listGroup";
-import PoliciesTable from "./policiesTable";
-
+import { extractPolicies } from "../utils/extractPolicies";
 import { paginate } from "../utils/paginate";
-
 import { getCompanies } from "../../services/companyService";
 import { getPolicyHPolicy } from "../../services/policyholderService";
-
-import SearchBox from "./../common/searchBox";
 import auth from "../../services/authService";
-
-import { extractPolicies } from "./../utils/extractPolicies";
 
 class Policy extends Component {
   state = {

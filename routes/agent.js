@@ -48,7 +48,6 @@ router.post("/", async (req, res) => {
   });
 
   agent.password = await bcrypt.hash(agent.password, await bcrypt.genSalt(10));
-  console.log(agent.password);
 
   await agent.save();
   const token = agent.generateAuthToken();
@@ -79,6 +78,7 @@ router.put("/:id", async (req, res) => {
       password: password,
       mobile: req.body.mobile,
       company: req.body.companyId,
+      active: req.body.active,
     },
     { new: true }
   );

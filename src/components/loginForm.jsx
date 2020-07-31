@@ -1,8 +1,8 @@
 import React from "react";
 import Joi from "joi-browser";
+import { Link } from "react-router-dom";
 import Form from "./common/form";
 import Brand from "../assets/brand/IPM Brand.png";
-import { Link } from "react-router-dom";
 import auth from "./../services/authService";
 
 class LoginForm extends Form {

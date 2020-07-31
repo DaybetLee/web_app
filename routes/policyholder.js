@@ -24,7 +24,7 @@ router.get("/param", async (req, res) => {
     $or: [{ agent: req.query.aid }, { email: req.query.email }],
   })
     .sort("name")
-    .populate("policy company");
+    .populate("policy company ");
   res.send(agent);
 });
 

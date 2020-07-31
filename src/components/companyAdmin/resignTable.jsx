@@ -1,18 +1,13 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import Table from "../common/table";
 import TickCrossSym from "../common/tickCrossSym";
 
-class AgentsTable extends Component {
+class ResignTable extends Component {
   columns = [
     {
       path: "name",
       label: "Name",
-      content: (agent) => {
-        if (agent.active) {
-          return <Link to={`/agent/${agent._id}`}>{agent.name}</Link>;
-        } else return <span>{agent.name}</span>;
-      },
+      content: (agent) => <span>{agent.name}</span>,
     },
 
     { path: "email", label: "Email" },
@@ -29,29 +24,19 @@ class AgentsTable extends Component {
     },
     {
       key: "resign",
-      content: (agent) => {
-        if (agent.active)
-          return (
-            <Link
-              to={`/resign/${agent._id}`}
-              className="btn btn-danger btn-sm"
-              disabled={!agent.active}
-            >
-              Resign
-            </Link>
-          );
-        else
-          return (
-            <button className="btn btn-danger btn-sm" disabled={!agent.active}>
-              Resign
-            </button>
-          );
-      },
+      content: (agent) => (
+        <button
+          onClick={() => this.props.onTransfer(agent)}
+          className="btn btn-info btn-sm"
+          disabled={!agent.active || agent._id === this.props.resigneeId}
+        >
+          Transfer
+        </button>
+      ),
     },
   ];
   render() {
     const { agents, sortColumn, onSort } = this.props;
-
     return (
       <Table
         columns={this.columns}
@@ -63,4 +48,4 @@ class AgentsTable extends Component {
   }
 }
 
-export default AgentsTable;
+export default ResignTable;

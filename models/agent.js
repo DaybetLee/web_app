@@ -36,6 +36,10 @@ const agentSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  active: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 agentSchema.methods.generateAuthToken = function () {
@@ -62,6 +66,7 @@ function validateAgent(Agent) {
     password: Joi.string().min(5).required(),
     mobile: Joi.number().min(8).required(),
     companyId: Joi.objectId().required(),
+    active: Joi.boolean(),
   });
   return schema.validate(Agent);
 }

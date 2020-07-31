@@ -1,17 +1,12 @@
-import React, { Component } from "react";
 import _ from "lodash";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
-import Pagination from "../common/pagination";
 import PolicyholdersTable from "./policyholdersTable";
-
 import { paginate } from "../utils/paginate";
-
-import { getAgentPolicyH } from "../../services/policyholderService";
-
-import SearchBox from "./../common/searchBox";
-
+import Pagination from "../common/pagination";
+import SearchBox from "../common/searchBox";
 import auth from "../../services/authService";
+import { getAgentPolicyH } from "../../services/policyholderService";
 
 class Policyholder extends Component {
   state = {
@@ -29,10 +24,6 @@ class Policyholder extends Component {
       this.setState({ policyholders });
     } catch (ex) {}
   }
-
-  handleView = (policyholder) => {
-    console.log(policyholder);
-  };
 
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
@@ -84,7 +75,6 @@ class Policyholder extends Component {
             <PolicyholdersTable
               policyholders={policyholders}
               sortColumn={sortColumn}
-              onView={this.handleView}
               onSort={this.handleSort}
             />
             <Pagination

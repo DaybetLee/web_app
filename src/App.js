@@ -2,7 +2,6 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import React, { Component } from "react";
 import auth from "./services/authService";
 import "./App.css";
-
 import NavBar from "./components/common/navbar";
 import Agent from "./components/companyAdmin/agent";
 import Policyholder from "./components/agent/policyholder";
@@ -16,6 +15,7 @@ import NotFound from "./components/notFound";
 import PolicyholderPolicy from "./components/agent/policyholderPolicy";
 import PolicyholderPolicyForm from "./components/agent/policyholderPolicyForm.jsx";
 import Logout from "./components/logout";
+import Resign from "./components/companyAdmin/resign";
 
 class App extends Component {
   state = {};
@@ -47,6 +47,7 @@ class App extends Component {
               component={Agent}
             />
             <Route path="/agent/:id" component={AgentForm} />
+            <Route path="/resign/:id" component={Resign} />
             <Route path="/policyholder" exact component={Policyholder} />
 
             <Route
