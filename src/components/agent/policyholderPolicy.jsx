@@ -11,6 +11,7 @@ class PolicyholderPolicy extends Component {
   state = {
     policies: [],
     company: [],
+    policyholder: {},
     currentPage: 1,
     pageSize: 4,
     sortColumn: { path: "title", order: "asc" },
@@ -22,7 +23,7 @@ class PolicyholderPolicy extends Component {
       this.props.match.params.id
     );
     const policies = [...policyholder.policy];
-    this.setState({ policies });
+    this.setState({ policies, policyholder });
   }
 
   handlePageChange = (page) => {
@@ -61,21 +62,39 @@ class PolicyholderPolicy extends Component {
   };
 
   render() {
-    const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
+    const {
+      pageSize,
+      currentPage,
+      sortColumn,
+      searchQuery,
+      policyholder,
+    } = this.state;
     const { totalCount, data: policies } = this.getPagedData();
     const link = this.props.match.params.id;
     return (
       <React.Fragment>
         <div className="row">
           <div className="col">
+            <h2>{policyholder.name}'s Policies</h2>
+          </div>
+        </div>
+        <hr />
+        <div className="row">
+          <div className="col-7">
+            <SearchBox value={searchQuery} onChange={this.handleSearch} />
+          </div>
+          <div className="col-5">
             <Link
               to={"/policyholderpolicy2/" + link}
               className="btn btn-success pull-right"
-              style={{ marginBottom: 20 }}
+              style={{ marginTop: 20 }}
             >
-              Add
+              Add Policy
             </Link>
-            <SearchBox value={searchQuery} onChange={this.handleSearch} />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
             <PoliciesholderPolicyTable
               policies={policies}
               sortColumn={sortColumn}

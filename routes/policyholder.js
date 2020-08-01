@@ -10,12 +10,14 @@ const superadmin_drop = require("../middleware/superadmin_drop");
 const {
   Policyholder,
   validatePolicyholder,
+  validateViewable,
+  validateAgentId,
 } = require("../models/policyholder");
 const { Agent } = require("../models/agent");
 
 // GET Request
 router.get("/", async (req, res) => {
-  const policyholder = await Policyholder.find().sort("name").populate();
+  const policyholder = await Policyholder.find().sort("name").populate("agent");
   res.send(policyholder);
 });
 
@@ -24,7 +26,7 @@ router.get("/param", async (req, res) => {
     $or: [{ agent: req.query.aid }, { email: req.query.email }],
   })
     .sort("name")
-    .populate("policy company ");
+    .populate("policy company");
   res.send(agent);
 });
 
@@ -52,38 +54,85 @@ router.post("/", async (req, res) => {
 
 // PUT request
 router.put("/:id", async (req, res) => {
-  const { error } = validatePolicyholder(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (req.query.approve) {
+    const { error } = validateViewable(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
 
-  const agent = await Agent.findById(req.body.agentId);
-  if (!agent) return res.status(400).send("Invalid AgentId.");
-
-  await Agent.findByIdAndUpdate(
-    (await Policyholder.findById(req.params.id)).agent,
-    {
-      $pull: {
-        policyholder: req.params.id,
+    const policyholder = await Policyholder.findByIdAndUpdate(
+      req.params.id,
+      {
+        viewable: req.body.viewable,
       },
-    }
-  );
+      { new: true }
+    );
 
-  const policyholder = await Policyholder.findByIdAndUpdate(
-    req.params.id,
-    {
-      name: req.body.name,
-      email: req.body.email,
-      mobile: req.body.mobile,
-      nric: req.body.nric,
-      agent: req.body.agentId,
-    },
-    { new: true }
-  );
+    if (!policyholder)
+      return res.status(404).send("404 Page Not Found. Agent Not Found.");
+    res.send(policyholder);
+  } else if (req.query.changeAgent) {
+    const { error } = validateAgentId(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
 
-  if (!policyholder)
-    return res.status(404).send("404 Page Not Found. Agent Not Found.");
-  res.send(policyholder);
+    const agent = await Agent.findById(req.body.agentId);
+    if (!agent) return res.status(400).send("Invalid AgentId.");
 
-  addPolicyholderToAgent(req.body.agentId, policyholder._id);
+    await Agent.findByIdAndUpdate(
+      (await Policyholder.findById(req.params.id)).agent,
+      {
+        $pull: {
+          policyholder: req.params.id,
+        },
+      }
+    );
+
+    const policyholder = await Policyholder.findByIdAndUpdate(
+      req.params.id,
+      {
+        agent: req.body.agentId,
+        viewable: req.body.viewable,
+      },
+      { new: true }
+    );
+
+    if (!policyholder)
+      return res.status(404).send("404 Page Not Found. Agent Not Found.");
+    res.send(policyholder);
+
+    addPolicyholderToAgent(req.body.agentId, policyholder._id);
+  } else {
+    const { error } = validatePolicyholder(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const agent = await Agent.findById(req.body.agentId);
+    if (!agent) return res.status(400).send("Invalid AgentId.");
+
+    await Agent.findByIdAndUpdate(
+      (await Policyholder.findById(req.params.id)).agent,
+      {
+        $pull: {
+          policyholder: req.params.id,
+        },
+      }
+    );
+
+    const policyholder = await Policyholder.findByIdAndUpdate(
+      req.params.id,
+      {
+        name: req.body.name,
+        email: req.body.email,
+        mobile: req.body.mobile,
+        nric: req.body.nric,
+        agent: req.body.agentId,
+      },
+      { new: true }
+    );
+
+    if (!policyholder)
+      return res.status(404).send("404 Page Not Found. Agent Not Found.");
+    res.send(policyholder);
+
+    addPolicyholderToAgent(req.body.agentId, policyholder._id);
+  }
 });
 
 // Delete request

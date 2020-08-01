@@ -11,6 +11,7 @@ import auth from "../../services/authService";
 class Agent extends Component {
   state = {
     agents: [],
+    company: {},
     currentPage: 1,
     pageSize: 4,
     sortColumn: { path: "title", order: "asc" },
@@ -21,7 +22,7 @@ class Agent extends Component {
     try {
       const company = auth.getCurrentUser();
       const { data: agents } = await getCompanyAgent(company._id);
-      this.setState({ agents });
+      this.setState({ agents, company });
     } catch (ex) {}
   }
 
@@ -56,21 +57,39 @@ class Agent extends Component {
   };
 
   render() {
-    const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
+    const {
+      pageSize,
+      currentPage,
+      sortColumn,
+      searchQuery,
+      company,
+    } = this.state;
     const { totalCount, data: agents } = this.getPagedData();
 
     return (
       <React.Fragment>
         <div className="row">
           <div className="col">
+            <h2>Welcome, {company.name} Admin</h2>
+          </div>
+        </div>
+        <hr style={{ marginTop: 0, marginBottom: 0 }} />
+        <div className="row">
+          <div className="col-7">
+            <SearchBox value={searchQuery} onChange={this.handleSearch} />
+          </div>
+          <div className="col-5">
             <Link
               to="/agent/new"
               className="btn btn-success pull-right"
-              style={{ marginBottom: 20 }}
+              style={{ marginTop: 20 }}
             >
-              Add
+              Add Agent
             </Link>
-            <SearchBox value={searchQuery} onChange={this.handleSearch} />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
             <AgentsTable
               agents={agents}
               sortColumn={sortColumn}

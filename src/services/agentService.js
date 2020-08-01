@@ -17,11 +17,11 @@ export function getCompanyAgent(id) {
 }
 
 export function deactivateAgent(agent) {
-  const { email, mobile, name, password } = agent;
-  let body = { email, mobile, name, password };
+  const { email, mobile, name } = agent;
+  let body = { email, mobile, name };
   body = addToObject(body, "active", false);
   body = addToObject(body, "companyId", agent.company._id);
-  return http.put(apiEndpoint + "/" + agent._id, body);
+  return http.put(apiEndpoint + "/" + agent._id + "?resign=true", body);
 }
 
 export function saveAgent(agent) {

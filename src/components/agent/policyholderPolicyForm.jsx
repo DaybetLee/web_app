@@ -10,6 +10,7 @@ class PolicyholderPolicyForm extends Form {
     data: {
       name: "",
       inforce: "",
+      amount: "",
     },
     policyholder: {
       _id: "",
@@ -23,6 +24,7 @@ class PolicyholderPolicyForm extends Form {
     _id: Joi.string(),
     name: Joi.string().required().label("Name"),
     inforce: Joi.boolean().required().label("Inforce"),
+    amount: Joi.number().required().label("Amount"),
   };
 
   async populatePolicy() {
@@ -61,6 +63,7 @@ class PolicyholderPolicyForm extends Form {
       _id: policy._id,
       name: policy.name,
       inforce: policy.inforce,
+      amount: policy.amount,
     };
   }
 
@@ -89,9 +92,11 @@ class PolicyholderPolicyForm extends Form {
   render() {
     return (
       <div>
-        <h1>{this.state.policyholder.name}</h1>
+        <h1>Policyholder {this.state.policyholder.name}</h1>
+        <hr />
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("name", "Name")}
+          {this.renderInput("amount", "Amount")}
           {this.renderInput("inforce", "Inforce")}
           {this.renderButton("Save")}
         </form>

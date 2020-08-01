@@ -72,6 +72,7 @@ class PolicyholderForm extends Form {
     return (
       <div>
         <h1>Policyholder</h1>
+        <hr />
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("name", "Name")}
           {this.renderInput("email", "Email")}

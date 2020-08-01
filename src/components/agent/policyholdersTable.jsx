@@ -7,11 +7,15 @@ class PolicyholdersTable extends Component {
     {
       path: "name",
       label: "Name",
-      content: (policyholder) => (
-        <Link to={`/policyholder/${policyholder._id}`}>
-          {policyholder.name}
-        </Link>
-      ),
+      content: (policyholder) => {
+        if (policyholder.viewable) {
+          return (
+            <Link to={`/policyholder/${policyholder._id}`}>
+              {policyholder.name}
+            </Link>
+          );
+        } else return <span>{policyholder.name}</span>;
+      },
     },
     { path: "email", label: "Email" },
     { path: "mobile", label: "Mobile" },
@@ -20,13 +24,13 @@ class PolicyholdersTable extends Component {
       path: "policy",
       label: "Policy",
       content: (policyholder) => {
-        if (policyholder.policy.length > 0) {
+        if (policyholder.viewable) {
           return (
             <Link to={`/policyholderpolicy/${policyholder._id}`}>
               {policyholder.policy.length}
             </Link>
           );
-        } else return <span>{policyholder.policy.length}</span>;
+        } else return <span>Pending</span>;
       },
     },
   ];

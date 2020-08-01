@@ -30,6 +30,10 @@ const policyholderSchema = new mongoose.Schema({
       ref: "Policy",
     },
   ],
+  viewable: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const Policyholder = mongoose.model("Policyholder", policyholderSchema);
@@ -43,9 +47,27 @@ function validatePolicyholder(Policyholder) {
     nric: Joi.string().min(9).required(),
     mobile: Joi.number().min(8).required(),
     agentId: Joi.objectId().required(),
+    viewable: Joi.boolean(),
+  });
+  return schema.validate(Policyholder);
+}
+
+function validateViewable(Policyholder) {
+  const schema = Joi.object({
+    viewable: Joi.boolean().required(),
+  });
+  return schema.validate(Policyholder);
+}
+
+function validateAgentId(Policyholder) {
+  const schema = Joi.object({
+    agentId: Joi.objectId().required(),
+    viewable: Joi.boolean().required(),
   });
   return schema.validate(Policyholder);
 }
 
 exports.Policyholder = Policyholder;
 exports.validatePolicyholder = validatePolicyholder;
+exports.validateViewable = validateViewable;
+exports.validateAgentId = validateAgentId;

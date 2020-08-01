@@ -8,7 +8,11 @@ const agent_drop = require("../middleware/agent_drop");
 const user_drop = require("../middleware/user_drop");
 const superadmin_drop = require("../middleware/superadmin_drop");
 
-const { Agent, validateAgent } = require("../models/agent");
+const {
+  Agent,
+  validateAgent,
+  validateAgentWOpass,
+} = require("../models/agent");
 const { Company } = require("../models/company");
 
 // GET Request
@@ -59,33 +63,57 @@ router.post("/", async (req, res) => {
 
 // PUT request
 router.put("/:id", async (req, res) => {
-  const { error } = validateAgent(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (req.query.resign) {
+    const { error } = validateAgentWOpass(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
 
-  const company = await Company.findById(req.body.companyId);
-  if (!company) return res.status(400).send("Invalid CompanyId.");
+    const company = await Company.findById(req.body.companyId);
+    if (!company) return res.status(400).send("Invalid CompanyId.");
 
-  const password = await bcrypt.hash(
-    req.body.password,
-    await bcrypt.genSalt(10)
-  );
+    const agent = await Agent.findByIdAndUpdate(
+      req.params.id,
+      {
+        name: req.body.name,
+        email: req.body.email,
+        mobile: req.body.mobile,
+        company: req.body.companyId,
+        active: req.body.active,
+      },
+      { new: true }
+    );
 
-  const agent = await Agent.findByIdAndUpdate(
-    req.params.id,
-    {
-      name: req.body.name,
-      email: req.body.email,
-      password: password,
-      mobile: req.body.mobile,
-      company: req.body.companyId,
-      active: req.body.active,
-    },
-    { new: true }
-  );
+    if (!agent)
+      return res.status(404).send("404 Page Not Found. Agent Not Found.");
+    res.send(agent);
+  } else {
+    const { error } = validateAgent(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
 
-  if (!agent)
-    return res.status(404).send("404 Page Not Found. Agent Not Found.");
-  res.send(agent);
+    const company = await Company.findById(req.body.companyId);
+    if (!company) return res.status(400).send("Invalid CompanyId.");
+
+    const password = await bcrypt.hash(
+      req.body.password,
+      await bcrypt.genSalt(10)
+    );
+
+    const agent = await Agent.findByIdAndUpdate(
+      req.params.id,
+      {
+        name: req.body.name,
+        email: req.body.email,
+        mobile: req.body.mobile,
+        password: password,
+        company: req.body.companyId,
+        active: req.body.active,
+      },
+      { new: true }
+    );
+
+    if (!agent)
+      return res.status(404).send("404 Page Not Found. Agent Not Found.");
+    res.send(agent);
+  }
 });
 
 // Delete request

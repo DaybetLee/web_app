@@ -41,6 +41,7 @@ router.post("/", async (req, res) => {
     name: req.body.name,
     policyholder: req.body.policyholderId,
     company: req.body.companyId,
+    amount: req.body.amount,
   });
 
   await policy.save();
@@ -76,6 +77,7 @@ router.put("/:id", async (req, res) => {
       policyholder: req.body.policyholderId,
       company: req.body.companyId,
       inforce: req.body.inforce,
+      amount: req.body.amount,
     },
     { new: true }
   );

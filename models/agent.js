@@ -71,5 +71,19 @@ function validateAgent(Agent) {
   return schema.validate(Agent);
 }
 
+function validateAgentWOpass(Agent) {
+  const schema = Joi.object({
+    name: Joi.string().required(),
+    email: Joi.string()
+      .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+      .required(),
+    mobile: Joi.number().min(8).required(),
+    companyId: Joi.objectId().required(),
+    active: Joi.boolean(),
+  });
+  return schema.validate(Agent);
+}
+
 exports.Agent = Agent;
 exports.validateAgent = validateAgent;
+exports.validateAgentWOpass = validateAgentWOpass;

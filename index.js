@@ -13,6 +13,7 @@ const policy = require("./routes/policy");
 const user = require("./routes/user");
 const superadmin = require("./routes/superadmin");
 const authentication = require("./routes/authentication");
+const nodemailer = require("./routes/nodemailer");
 
 // if (!config.get("jwtPrivateKey")) {
 //   console.error("FATAL ERROR: jwtPrivateKey is not defined.");
@@ -46,3 +47,4 @@ app.use("/v1/api/policy", policy);
 app.use("/v1/api/user", user);
 app.use("/v1/api/superadmin", superadmin);
 app.use("/v1/api/authentication", authentication);
+app.use("/v1/api/mailer", nodemailer);

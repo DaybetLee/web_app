@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import _ from "lodash";
-import PoliciesTable from "./policiesTable";
+import { Link } from "react-router-dom";
+import PolicyApprovalTable from "./policyApprovalTable";
 import SearchBox from "../common/searchBox";
 import Pagination from "../common/pagination";
-import ListGroup from "../common/listGroup";
 import { extractPolicies } from "../utils/extractPolicies";
 import { paginate } from "../utils/paginate";
 import { policyToApprove } from "../utils/policyToApprove";
-import { getCompanies } from "../../services/companyService";
-import { getPolicyHPolicy } from "../../services/policyholderService";
-import NotificationBtn from "./../common/NotificationBtn";
+import {
+  getPolicyHPolicy,
+  approveAgent,
+} from "../../services/policyholderService";
 import auth from "../../services/authService";
 
-class Policy extends Component {
+class PolicyApproval extends Component {
   state = {
     policies: [],
-    company: [],
     policyholder: {},
     policiesArray: [],
     currentPage: 1,
@@ -27,17 +27,15 @@ class Policy extends Component {
 
   async componentDidMount() {
     try {
-      const { data } = await getCompanies();
-      const company = [{ _id: "", name: "All Company" }, ...data];
-
       const policyholder = auth.getCurrentUser();
 
       const { data: policiesArray } = await getPolicyHPolicy(
         policyholder.email
       );
-      const policies = extractPolicies(policiesArray);
 
-      this.setState({ policies, company, policyholder, policiesArray });
+      const policies = extractPolicies(policyToApprove(policiesArray));
+
+      this.setState({ policies, policyholder, policiesArray });
     } catch (ex) {}
   }
 
@@ -45,16 +43,26 @@ class Policy extends Component {
     this.setState({ currentPage: page });
   };
 
-  handleCompanySelect = (company) => {
+  handleSort = (sortColumn) => {
+    this.setState({ sortColumn });
+  };
+
+  handleSearch = (query) => {
     this.setState({
-      selectedCompany: company,
-      searchQuery: "",
+      searchQuery: query,
+      selectedCompany: null,
       currentPage: 1,
     });
   };
 
-  handleSort = (sortColumn) => {
-    this.setState({ sortColumn });
+  handleApproval = async (policyholderId) => {
+    await approveAgent(policyholderId);
+    this.props.history.push("/policy/");
+  };
+
+  handleExample = (policyholderId) => {
+    // console.log(policyholderId);
+    // this.props.history.push("/policy/");
   };
 
   getPagedData = () => {
@@ -68,6 +76,7 @@ class Policy extends Component {
     } = this.state;
 
     let filtered = allPolicy;
+    // console.log(allPolicy);
 
     if (searchQuery)
       filtered = allPolicy.filter((p) =>
@@ -83,52 +92,39 @@ class Policy extends Component {
     return { totalCount: filtered.length, data: policies };
   };
 
-  handleSearch = (query) => {
-    this.setState({
-      searchQuery: query,
-      selectedCompany: null,
-      currentPage: 1,
-    });
-  };
-
   render() {
-    const {
-      pageSize,
-      currentPage,
-      sortColumn,
-      searchQuery,
-      policyholder,
-      policiesArray,
-    } = this.state;
+    const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
     const { totalCount, data: policies } = this.getPagedData();
-    const policyCount = policyToApprove(policiesArray);
-
     return (
       <React.Fragment>
         <div className="row">
-          <div className="col-6">
-            <h2>Welcome, {policyholder.name}</h2>
-          </div>
-          <div className="col-6">
-            <NotificationBtn policyCount={policyCount} />
+          <div className="col">
+            <h2>Approval Request</h2>
+            <p style={{ marginBottom: 0 }}>
+              It seem your policy manager has been changed, click 'Accept' to
+              allow the new agent to manage your profile or "Reject" with
+              reason.
+            </p>
           </div>
         </div>
         <hr />
         <div className="row">
-          <div className="col-3">
-            <ListGroup
-              items={this.state.company}
-              selectedItem={this.state.selectedCompany}
-              onItemSelect={this.handleCompanySelect}
-            />
-          </div>
           <div className="col">
             <SearchBox value={searchQuery} onChange={this.handleSearch} />
-            <PoliciesTable
+            <PolicyApprovalTable
               policies={policies}
               sortColumn={sortColumn}
+              onApproval={this.handleApproval}
+              onExample={this.handleExample}
               onSort={this.handleSort}
             />
+            <Link
+              to="/policy"
+              className="btn btn-primary pull-right"
+              style={{ marginBottom: 20 }}
+            >
+              Back
+            </Link>
             <Pagination
               itemsCount={totalCount}
               pageSize={pageSize}
@@ -142,4 +138,4 @@ class Policy extends Component {
   }
 }
 
-export default Policy;
+export default PolicyApproval;

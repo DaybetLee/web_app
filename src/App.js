@@ -16,6 +16,7 @@ import PolicyholderPolicy from "./components/agent/policyholderPolicy";
 import PolicyholderPolicyForm from "./components/agent/policyholderPolicyForm.jsx";
 import Logout from "./components/logout";
 import Resign from "./components/companyAdmin/resign";
+import PolicyApproval from "./components/policyholder/policyApproval";
 
 class App extends Component {
   state = {};
@@ -57,6 +58,7 @@ class App extends Component {
 
             <Route path="/policyholder/:id" component={policyholderForm} />
             <Route path="/policy" exact component={Policy} />
+            <Route path="/policy/approval" exact component={PolicyApproval} />
             <Route path="/you-shall-not-pass-!" exact component={NotFound} />
             <Redirect from="/" exact to="/login" />
             <Route

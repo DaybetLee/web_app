@@ -22,6 +22,10 @@ const policySchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  amount: {
+    type: Number,
+    required: true,
+  },
 });
 
 const Policy = mongoose.model("Policy", policySchema);
@@ -31,6 +35,7 @@ function validatePolicy(Policy) {
     name: Joi.string().required(),
     policyholderId: Joi.objectId().required(),
     companyId: Joi.objectId().required(),
+    amount: Joi.number().required(),
     inforce: Joi.boolean(),
   });
   return schema.validate(Policy);

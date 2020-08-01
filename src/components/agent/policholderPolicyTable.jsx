@@ -14,6 +14,7 @@ class PolicyholderPolicyTable extends Component {
         return date.slice(0, 10);
       },
     },
+    { path: "amount", label: "Amount" },
     {
       path: "inforce",
       label: "Inforce",

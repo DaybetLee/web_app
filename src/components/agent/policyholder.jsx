@@ -11,6 +11,7 @@ import { getAgentPolicyH } from "../../services/policyholderService";
 class Policyholder extends Component {
   state = {
     policyholders: [],
+    agent: {},
     currentPage: 1,
     pageSize: 4,
     searchQuery: "",
@@ -21,7 +22,7 @@ class Policyholder extends Component {
     try {
       const agent = auth.getCurrentUser();
       const { data: policyholders } = await getAgentPolicyH(agent._id);
-      this.setState({ policyholders });
+      this.setState({ policyholders, agent });
     } catch (ex) {}
   }
 
@@ -57,21 +58,39 @@ class Policyholder extends Component {
   };
 
   render() {
-    const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
+    const {
+      pageSize,
+      currentPage,
+      sortColumn,
+      searchQuery,
+      agent,
+    } = this.state;
     const { totalCount, data: policyholders } = this.getPagedData();
 
     return (
       <React.Fragment>
         <div className="row">
           <div className="col">
+            <h2>Welcome, Agent {agent.name}</h2>
+          </div>
+        </div>
+        <hr />
+        <div className="row">
+          <div className="col-7">
+            <SearchBox value={searchQuery} onChange={this.handleSearch} />
+          </div>
+          <div className="col-5">
             <Link
               to="/policyholder/new"
               className="btn btn-success pull-right"
-              style={{ marginBottom: 20 }}
+              style={{ marginTop: 20 }}
             >
-              Add
+              Add Policyholder
             </Link>
-            <SearchBox value={searchQuery} onChange={this.handleSearch} />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
             <PolicyholdersTable
               policyholders={policyholders}
               sortColumn={sortColumn}
