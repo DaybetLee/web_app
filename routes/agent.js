@@ -23,6 +23,17 @@ router.get("/param", async (req, res) => {
   res.send(agent);
 });
 
+// GET ID Request
+router.get("/:id", async (req, res) => {
+  const agent = await Agent.findById(req.params.id).populate(
+    "company policyholder"
+  );
+
+  if (!agent)
+    return res.status(404).send("404 Page Not Found. Agent Not Found.");
+  res.send(agent);
+});
+
 // POST Request
 router.post("/", async (req, res) => {
   const { error } = validateAgent(req.body);
