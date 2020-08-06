@@ -44,7 +44,10 @@ function validatePolicyholder(Policyholder) {
     email: Joi.string()
       .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
       .required(),
-    nric: Joi.string().min(9).required(),
+    nric: Joi.string()
+      .min(9)
+      .required()
+      .pattern(/^[A-Z0-9]{9,9}$/),
     mobile: Joi.number().min(8).required(),
     agentId: Joi.objectId().required(),
     viewable: Joi.boolean(),

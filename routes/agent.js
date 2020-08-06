@@ -2,12 +2,6 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 const router = express.Router();
 
-const authorization = require("../middleware/authorization");
-const company_drop = require("../middleware/company_drop");
-const agent_drop = require("../middleware/agent_drop");
-const user_drop = require("../middleware/user_drop");
-const superadmin_drop = require("../middleware/superadmin_drop");
-
 const {
   Agent,
   validateAgent,
@@ -122,23 +116,6 @@ router.delete("/:id", async (req, res) => {
 
   if (!agent)
     return res.status(404).send("404 Page Not Found. Agent Not Found.");
-  res.send(agent);
-});
-
-// GET ID Request
-router.get("/:id", async (req, res) => {
-  const agent = await Agent.findById(req.params.id).populate(
-    "company policyholder"
-  );
-
-  if (!agent)
-    return res.status(404).send("404 Page Not Found. Agent Not Found.");
-  res.send(agent);
-});
-
-// GET Current
-router.get("/me", async (req, res) => {
-  const agent = await Agent.findById(req.user._id).select("-password");
   res.send(agent);
 });
 

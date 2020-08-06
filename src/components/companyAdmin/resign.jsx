@@ -82,6 +82,9 @@ class Resign extends Component {
 
     return (
       <React.Fragment>
+        <p>
+          Please select the agent for the transfer of policyholder accounts.
+        </p>
         <div className="row">
           <div className="col">
             <SearchBox value={searchQuery} onChange={this.handleSearch} />

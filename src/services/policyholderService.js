@@ -19,6 +19,10 @@ export function getPolicyHPolicy(email) {
   return http.get(apiEndpoint + "/param?email=" + email);
 }
 
+export function getPolicyByIC(nric) {
+  return http.get(apiEndpoint + "/param?nric=" + nric);
+}
+
 export function changeAgent(policyholder, agentId) {
   const body = { agentId: agentId, viewable: false };
   return http.put(

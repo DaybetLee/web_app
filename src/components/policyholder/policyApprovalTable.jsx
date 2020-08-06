@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Table from "../common/table";
 import TickCrossSym from "../common/tickCrossSym";
-import { Link } from "react-router-dom";
 
 class PoliciesApprovalTable extends Component {
   columns = [
@@ -33,24 +32,32 @@ class PoliciesApprovalTable extends Component {
     },
     {
       key: "reject",
-      content: (policy) => (
-        <React.Fragment>
-          <div className="input-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Rejection Reason"
-              aria-label="Rejection Reason"
-              aria-describedby="basic-addon2"
-            />
-            <div className="input-group-append">
-              <Link to="/policy" className="btn btn-danger" type="Link">
-                Reject
-              </Link>
+      content: () => {
+        const reason = React.createRef();
+        return (
+          <React.Fragment>
+            <div className="input-group mb-3">
+              <input
+                ref={reason}
+                type="text"
+                className="form-control"
+                placeholder="Rejection Reason"
+                aria-label="Rejection Reason"
+                aria-describedby="basic-addon2"
+              />
+              <div className="input-group-append">
+                <button
+                  onClick={() => this.props.onReason(reason)}
+                  className="btn btn-danger"
+                  type="button"
+                >
+                  Reject
+                </button>
+              </div>
             </div>
-          </div>
-        </React.Fragment>
-      ),
+          </React.Fragment>
+        );
+      },
     },
   ];
 

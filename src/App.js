@@ -17,6 +17,8 @@ import PolicyholderPolicyForm from "./components/agent/policyholderPolicyForm.js
 import Logout from "./components/logout";
 import Resign from "./components/companyAdmin/resign";
 import PolicyApproval from "./components/policyholder/policyApproval";
+import AllPolicyholder from "./components/superadmin/allPolicyholder";
+import OverallPolicy from "./components/superadmin/overallPolicy";
 
 class App extends Component {
   state = {};
@@ -34,7 +36,6 @@ class App extends Component {
         <main className="container">
           <Switch>
             <Route
-              // temp to /policyholderpolicy2/:id due to conflict
               path="/policyholderpolicy2/:id"
               component={PolicyholderPolicyForm}
             />
@@ -50,14 +51,14 @@ class App extends Component {
             <Route path="/agent/:id" component={AgentForm} />
             <Route path="/resign/:id" component={Resign} />
             <Route path="/policyholder" exact component={Policyholder} />
-
             <Route
               path="/policyholderpolicy/:id"
               component={PolicyholderPolicy}
             />
-
             <Route path="/policyholder/:id" component={policyholderForm} />
             <Route path="/policy" exact component={Policy} />
+            <Route path="/allPolicyholder" exact component={AllPolicyholder} />
+            <Route path="/overallpolicy/:id" exact component={OverallPolicy} />
             <Route path="/policy/approval" exact component={PolicyApproval} />
             <Route path="/you-shall-not-pass-!" exact component={NotFound} />
             <Redirect from="/" exact to="/login" />

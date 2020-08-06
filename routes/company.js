@@ -2,22 +2,26 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 const router = express.Router();
 
-const authorization = require("../middleware/authorization");
-const company_drop = require("../middleware/company_drop");
-const agent_drop = require("../middleware/agent_drop");
-const user_drop = require("../middleware/user_drop");
-const superadmin_drop = require("../middleware/superadmin_drop");
-
 const { Company, validateCompany } = require("../models/company");
 
 // GET Request
 router.get("/", async (req, res) => {
-  const company = await Company
-    .find
-    //   {$or: [{ name: req.query.cn }, { _id: req.query.cid }],}
-    ()
-    .sort("name");
+  const company = await Company.find().sort("name");
 
+  res.send(company);
+});
+
+router.get("/param", async (req, res) => {
+  const company = await Company.find({ name: req.query.name }).sort("name");
+  res.send(company);
+});
+
+// GET ID Request
+router.get("/:id", async (req, res) => {
+  const company = await Company.findById(req.params.id);
+
+  if (!company)
+    return res.status(404).send("404 Page Not Found. Company Not Found.");
   res.send(company);
 });
 
@@ -78,21 +82,6 @@ router.delete("/:id", async (req, res) => {
 
   if (!company)
     return res.status(404).send("404 Page Not Found. Company Not Found.");
-  res.send(company);
-});
-
-// GET ID Request
-router.get("/:id", async (req, res) => {
-  const company = await Company.findById(req.params.id);
-
-  if (!company)
-    return res.status(404).send("404 Page Not Found. Company Not Found.");
-  res.send(company);
-});
-
-// GET Current
-router.get("/me", async (req, res) => {
-  const company = await Company.findById(req.user._id).select("-password");
   res.send(company);
 });
 

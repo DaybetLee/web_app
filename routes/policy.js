@@ -1,12 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const authorization = require("../middleware/authorization");
-const company_drop = require("../middleware/company_drop");
-const agent_drop = require("../middleware/agent_drop");
-const user_drop = require("../middleware/user_drop");
-const superadmin_drop = require("../middleware/superadmin_drop");
-
 const { Policy, validatePolicy } = require("../models/policy");
 const { Policyholder } = require("../models/policyholder");
 const { Company } = require("../models/company");
@@ -24,6 +18,15 @@ router.get("/param", async (req, res) => {
     .sort("name")
     .populate();
   res.send(agent);
+});
+
+// GET ID Request
+router.get("/:id", async (req, res) => {
+  const policy = await Policy.findById(req.params.id).populate(
+    "policyholder company"
+  );
+
+  res.send(policy);
 });
 
 // POST Request
@@ -104,15 +107,6 @@ router.delete("/:id", async (req, res) => {
 
   if (!policy)
     return res.status(404).send("404 Page Not Found. Policy Not Found.");
-  res.send(policy);
-});
-
-// GET ID Request
-router.get("/:id", async (req, res) => {
-  const policy = await Policy.findById(req.params.id).populate("policyholder");
-
-  // if (!policy)
-  //   return res.status(404).send("404 Page Not Found. Policy Not Found.");
   res.send(policy);
 });
 

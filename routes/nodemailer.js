@@ -1,98 +1,114 @@
 const express = require("express");
 const router = express.Router();
 const nodemailer = require("nodemailer");
+const {
+  validateNodeMailer,
+  validateNMForCompany,
+  validateNMForReject,
+} = require("../models/nodemailer");
 
-router.get("/", async (req, res) => {
+router.post("/claimant", async (req, res) => {
+  const { error } = validateNodeMailer(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
   const output = `
-  <!DOCTYPE html>
-  <html>
-  <head>
-  <style>
-  table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
-  </style>
-  </head>
-  <body>
-  
-  <h2>HTML Table</h2>
-  
-  <table>
-    <tr>
-      <th>Company</th>
-      <th>Contact</th>
-      <th>Country</th>
-    </tr>
-    <tr>
-      <td>Alfreds Futterkiste</td>
-      <td>Maria Anders</td>
-      <td>Germany</td>
-    </tr>
-    <tr>
-      <td>Centro comercial Moctezuma</td>
-      <td>Francisco Chang</td>
-      <td>Mexico</td>
-    </tr>
-    <tr>
-      <td>Ernst Handel</td>
-      <td>Roland Mendel</td>
-      <td>Austria</td>
-    </tr>
-    <tr>
-      <td>Island Trading</td>
-      <td>Helen Bennett</td>
-      <td>UK</td>
-    </tr>
-    <tr>
-      <td>Laughing Bacchus Winecellars</td>
-      <td>Yoshi Tannamuri</td>
-      <td>Canada</td>
-    </tr>
-    <tr>
-      <td>Magazzini Alimentari Riuniti</td>
-      <td>Giovanni Rovelli</td>
-      <td>Italy</td>
-    </tr>
-  </table>
-  
-  </body>
-  </html>
-  
-    
+  <p>Dear Claimant,</p>
+ <p>As requested, following is the view request link for Mr/Ms ${req.body.policyholder}:</p>
+ <p>${req.body.link}</P>
+ <p>Kind regards,<br>IPM</p>
     `;
 
-  //   let transporter = nodemailer.createTransport({
-  //     host: "smtp.gmail.com",
-  //     port: 587,
-  //     secure: false,
-  //     auth: {
-  //       user: `daybet.test@gmail.com`,
-  //       pass: `Whatev3r!`,
-  //     },
-  //   });
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+      user: `daybet.test@gmail.com`,
+      pass: `Whatev3r!`,
+    },
+  });
 
-  //   let info = await transporter.sendMail({
-  //     from: '"Nodemailer Test" <daybet.test@gmail.com>',
-  //     to: "daybetlee@gmail.com",
-  //     subject: "Nodemailer Test",
-  //     text: "Hello world?",
-  //     html: output,
-  //   });
+  let info = await transporter.sendMail({
+    from: '"IMP@example.com" <daybet.test@gmail.com>',
+    to: `${req.body.email}`,
+    subject: `Policy View Request for ${req.body.policyholder}`,
+    text: "Policy View Request",
+    html: output,
+  });
 
-  //   console.log("Message sent: %s", info.messageId);
-  //   console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  console.log("Message sent: %s", info.messageId);
+  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+  res.send(output);
+});
+
+// Post request to Company
+router.post("/company", async (req, res) => {
+  const { error } = validateNMForCompany(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  const output = `
+  <p>Dear ${req.body.company} Admin,</p>
+ <p>Please be informed that Mr/Ms ${req.body.policyholder} (${req.body.nric}) policies details has been forwarded to the claimant.</p>
+ <p>Kind regards,<br>IPM</p>
+    `;
+
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+      user: `daybet.test@gmail.com`,
+      pass: `Whatev3r!`,
+    },
+  });
+
+  let info = await transporter.sendMail({
+    from: '"IMP@example.com" <daybet.test@gmail.com>',
+    to: `${req.body.email}`,
+    subject: `Notification on Policy View Request for ${req.body.policyholder}`,
+    text: "Policy View Request",
+    html: output,
+  });
+
+  console.log("Message sent: %s", info.messageId);
+  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+  res.send(output);
+});
+
+// Post request to Company
+router.post("/reject", async (req, res) => {
+  const { error } = validateNMForReject(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  const output = `
+  <p>Dear ${req.body.company} Admin,</p>
+ <p>Please be informed that Mr/Ms ${req.body.policyholder} (${req.body.nric}) had reject the approval for the agent to manage his/her policy.</p>
+ <p>Reason: ${req.body.reject}</p>
+ <p>Kind regards,<br>IPM</p>
+    `;
+
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+      user: `daybet.test@gmail.com`,
+      pass: `Whatev3r!`,
+    },
+  });
+
+  let info = await transporter.sendMail({
+    from: '"IMP@example.com" <daybet.test@gmail.com>',
+    to: `${req.body.email}`,
+    subject: `Notification on Policy View Request for ${req.body.policyholder}`,
+    text: "Policy View Request",
+    html: output,
+  });
+
+  console.log("Message sent: %s", info.messageId);
+  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 
   res.send(output);
 });

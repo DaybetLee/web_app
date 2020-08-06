@@ -1,12 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const authorization = require("../middleware/authorization");
-const company_drop = require("../middleware/company_drop");
-const agent_drop = require("../middleware/agent_drop");
-const user_drop = require("../middleware/user_drop");
-const superadmin_drop = require("../middleware/superadmin_drop");
-
 const {
   Policyholder,
   validatePolicyholder,
@@ -23,11 +17,26 @@ router.get("/", async (req, res) => {
 
 router.get("/param", async (req, res) => {
   const agent = await Policyholder.find({
-    $or: [{ agent: req.query.aid }, { email: req.query.email }],
+    $or: [
+      { agent: req.query.aid },
+      { email: req.query.email },
+      { nric: req.query.nric },
+    ],
   })
     .sort("name")
     .populate("policy company");
   res.send(agent);
+});
+
+// GET ID Request
+router.get("/:id", async (req, res) => {
+  const policyholder = await Policyholder.findById(req.params.id).populate(
+    "policy"
+  );
+
+  if (!policyholder)
+    return res.status(404).send("404 Page Not Found. Policyholder Not Found.");
+  res.send(policyholder);
 });
 
 // POST Request
@@ -147,17 +156,6 @@ router.delete("/:id", async (req, res) => {
   );
 
   const policyholder = await Policyholder.findByIdAndRemove(req.params.id);
-
-  if (!policyholder)
-    return res.status(404).send("404 Page Not Found. Policyholder Not Found.");
-  res.send(policyholder);
-});
-
-// GET ID Request
-router.get("/:id", async (req, res) => {
-  const policyholder = await Policyholder.findById(req.params.id).populate(
-    "policy"
-  );
 
   if (!policyholder)
     return res.status(404).send("404 Page Not Found. Policyholder Not Found.");

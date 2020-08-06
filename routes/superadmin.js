@@ -2,12 +2,6 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 const router = express.Router();
 
-const authorization = require("../middleware/authorization");
-const company_drop = require("../middleware/company_drop");
-const agent_drop = require("../middleware/agent_drop");
-const user_drop = require("../middleware/user_drop");
-const superadmin_drop = require("../middleware/superadmin_drop");
-
 const { Superadmin, validateSuperadamin } = require("../models/superadmin");
 
 // GET Request
@@ -15,6 +9,15 @@ router.get("/", async (req, res) => {
   const superadmin = await Superadmin.find().sort("name");
 
   res.send(superadmin);
+});
+
+// GET ID Request
+router.get("/:id", async (req, res) => {
+  const superadamin = await Superadmin.findById(req.params.id);
+
+  if (!superadamin)
+    return res.status(404).send("404 Page Not Found. User Not Found.");
+  res.send(superadamin);
 });
 
 // POST Request
@@ -79,23 +82,6 @@ router.delete("/:id", async (req, res) => {
 
   if (!superadmin)
     return res.status(404).send("404 Page Not Found. User Not Found.");
-  res.send(superadmin);
-});
-
-// GET ID Request
-router.get("/:id", async (req, res) => {
-  const superadamin = await Superadmin.findById(req.params.id);
-
-  if (!superadamin)
-    return res.status(404).send("404 Page Not Found. User Not Found.");
-  res.send(superadamin);
-});
-
-// GET Current
-router.get("/me", async (req, res) => {
-  const superadmin = await Superadmin.findById(req.user._id).select(
-    "-password"
-  );
   res.send(superadmin);
 });
 

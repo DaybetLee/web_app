@@ -25,6 +25,7 @@ class LoginForm extends Form {
       if (user.isAgent) window.location = "/policyholder";
       else if (user.isCompanyAdmin) window.location = "/agent";
       else if (user.isUser) window.location = "/policy";
+      else if (user.isSuperadmin) window.location = "/allPolicyholder";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };

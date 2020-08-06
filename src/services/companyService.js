@@ -7,6 +7,10 @@ export function getCompanies() {
   return http.get(apiEndpoint);
 }
 
+export function getCompanyByName(name) {
+  return http.get(apiEndpoint + "/param?name=" + name);
+}
+
 export function getCompany(id) {
   return http.get(apiEndpoint + "/" + id);
 }

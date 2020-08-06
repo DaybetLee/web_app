@@ -11,6 +11,8 @@ import {
   getPolicyHPolicy,
   approveAgent,
 } from "../../services/policyholderService";
+import { getCompany } from "../../services/companyService";
+import { sendReject } from "../../services/nodemailerService";
 import auth from "../../services/authService";
 
 class PolicyApproval extends Component {
@@ -60,9 +62,20 @@ class PolicyApproval extends Component {
     this.props.history.push("/policy/");
   };
 
-  handleExample = (policyholderId) => {
-    // console.log(policyholderId);
-    // this.props.history.push("/policy/");
+  handleReason = async (reason) => {
+    try {
+      const { policiesArray, policies, policyholder } = this.state;
+      const { data: company } = await getCompany(policies[0].company);
+      await sendReject(
+        policyholder.name,
+        company.name,
+        company.email,
+        policiesArray[0].nric,
+        reason.current.value
+      );
+
+      this.props.history.push("/policy");
+    } catch (ex) {}
   };
 
   getPagedData = () => {
@@ -71,22 +84,17 @@ class PolicyApproval extends Component {
       currentPage,
       policies: allPolicy,
       sortColumn,
-      selectedCompany,
       searchQuery,
     } = this.state;
 
     let filtered = allPolicy;
-    // console.log(allPolicy);
 
     if (searchQuery)
       filtered = allPolicy.filter((p) =>
         p.name.toLowerCase().startsWith(searchQuery.toLowerCase())
       );
-    else if (selectedCompany && selectedCompany._id)
-      filtered = allPolicy.filter((p) => p.company === selectedCompany._id);
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
-
     const policies = paginate(sorted, currentPage, pageSize);
 
     return { totalCount: filtered.length, data: policies };
@@ -115,7 +123,7 @@ class PolicyApproval extends Component {
               policies={policies}
               sortColumn={sortColumn}
               onApproval={this.handleApproval}
-              onExample={this.handleExample}
+              onReason={this.handleReason}
               onSort={this.handleSort}
             />
             <Link

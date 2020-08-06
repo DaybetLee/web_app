@@ -25,7 +25,11 @@ class PolicyholderForm extends Form {
     name: Joi.string().required().label("Name"),
     email: Joi.string().required().email().label("Email"),
     mobile: Joi.number().required().label("Mobile"),
-    nric: Joi.string().min(9).required().label("Nric"),
+    nric: Joi.string()
+      .min(9)
+      .required()
+      .label("Nric")
+      .regex(/[A-Z0-9]{9,9}/),
   };
 
   doSubmit = async () => {

@@ -5,5 +5,6 @@ export function extractPolicies(obj) {
       temp.push(obj[i].policy[o]);
     }
   }
+
   return temp;
 }
