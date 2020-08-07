@@ -23,13 +23,13 @@ router.post("/claimant", async (req, res) => {
     port: 587,
     secure: false,
     auth: {
-      user: `daybet.test@gmail.com`,
-      pass: `Whatev3r!`,
+      user: `EMAIL HERE`,
+      pass: `PASSWORD HERE`,
     },
   });
 
   let info = await transporter.sendMail({
-    from: '"IMP@example.com" <daybet.test@gmail.com>',
+    from: '"IMP@example.com" <EMAIL HERE>',
     to: `${req.body.email}`,
     subject: `Policy View Request for ${req.body.policyholder}`,
     text: "Policy View Request",
@@ -58,13 +58,13 @@ router.post("/company", async (req, res) => {
     port: 587,
     secure: false,
     auth: {
-      user: `daybet.test@gmail.com`,
-      pass: `Whatev3r!`,
+      user: `EMAIL HERE`,
+      pass: `PASSWORD HERE`,
     },
   });
 
   let info = await transporter.sendMail({
-    from: '"IMP@example.com" <daybet.test@gmail.com>',
+    from: '"IMP@example.com" <EMAIL HERE>',
     to: `${req.body.email}`,
     subject: `Notification on Policy View Request for ${req.body.policyholder}`,
     text: "Policy View Request",
@@ -94,13 +94,13 @@ router.post("/reject", async (req, res) => {
     port: 587,
     secure: false,
     auth: {
-      user: `daybet.test@gmail.com`,
-      pass: `Whatev3r!`,
+      user: `EMAIL HERE`,
+      pass: `PASSWORD HERE`,
     },
   });
 
   let info = await transporter.sendMail({
-    from: '"IMP@example.com" <daybet.test@gmail.com>',
+    from: '"IMP@example.com" <EMAIL HERE>',
     to: `${req.body.email}`,
     subject: `Notification on Policy View Request for ${req.body.policyholder}`,
     text: "Policy View Request",
