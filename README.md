@@ -36,4 +36,4 @@ For the claimant administrator, he wish to …
 ### `Running the Application`
 
 Please refer to the deployment guide for installing the neccessaries to run the demo.
-Sample data can be found in database folder
+Sample data can be found in database folder.
