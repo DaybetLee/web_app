@@ -1,0 +1,37 @@
+[{
+  "_id": {
+    "$oid": "5f1f0f9438e7835064b60ba0"
+  },
+  "isCompanyAdmin": true,
+  "name": "AIA",
+  "email": "admin@aia.net",
+  "password": "$2b$10$TaBdD8ieeLJUvLFWDIa5Y.dop6Lm4vI.J7QgAFv1r8SZL19Q4nH6.",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f1f100238e7835064b60ba1"
+  },
+  "isCompanyAdmin": true,
+  "name": "Prudential",
+  "email": "admin@prudential.net",
+  "password": "$2b$10$dZkQ4kOKDc18THq.uTdQNOMXL41.vZBp0PrgcO4sbV/RT31ilFuqO",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f1f101c38e7835064b60ba2"
+  },
+  "isCompanyAdmin": true,
+  "name": "Manulife",
+  "email": "admin@manulife.net",
+  "password": "$2b$10$MNJZORL5/SV8KmkCdDgxceZAzoOc/ClV3QYoN61DUd5W28s/wpetG",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24d636fb4d66618097a5ec"
+  },
+  "isCompanyAdmin": true,
+  "name": "Aviva",
+  "email": "admin@aviva.net",
+  "password": "$2b$10$MliTJn2j4Y2DP/IQXR2xU.bRbk4UIb98prE.r1ldOgAUmCi.z9isO",
+  "__v": 0
+}]

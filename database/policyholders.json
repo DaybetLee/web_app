@@ -1,0 +1,406 @@
+[{
+  "_id": {
+    "$oid": "5f24dd94299b525b389804c9"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e351299b525b389804dd"
+    },
+    {
+      "$oid": "5f24e36a299b525b389804de"
+    },
+    {
+      "$oid": "5f24e37d299b525b389804df"
+    },
+    {
+      "$oid": "5f24e392299b525b389804e0"
+    }
+  ],
+  "viewable": true,
+  "name": "Alaina Robin",
+  "email": "alaina_robin@mail.com",
+  "mobile": 84961195,
+  "nric": "S9645314Z",
+  "agent": {
+    "$oid": "5f24dac8299b525b389804bf"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24ddce299b525b389804ca"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e3a9299b525b389804e1"
+    },
+    {
+      "$oid": "5f24e3b6299b525b389804e2"
+    },
+    {
+      "$oid": "5f24e3c3299b525b389804e3"
+    }
+  ],
+  "viewable": true,
+  "name": "Cillian Lam",
+  "email": "cillian_lam@mail.com",
+  "mobile": 91197114,
+  "nric": "S3659079Z",
+  "agent": {
+    "$oid": "5f24dac8299b525b389804bf"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24de10299b525b389804cb"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e3d7299b525b389804e4"
+    },
+    {
+      "$oid": "5f24e3e9299b525b389804e5"
+    }
+  ],
+  "viewable": true,
+  "name": "Eva Wickens",
+  "email": "eva_wickens@mail.com",
+  "mobile": 93526644,
+  "nric": "S2278818Z",
+  "agent": {
+    "$oid": "5f24dac8299b525b389804bf"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24de48299b525b389804cc"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e3fb299b525b389804e6"
+    }
+  ],
+  "viewable": true,
+  "name": "Sammy-Jo Burch",
+  "email": "sammy-Jo_burch@mail.com",
+  "mobile": 93752168,
+  "nric": "S8876469Z",
+  "agent": {
+    "$oid": "5f24dac8299b525b389804bf"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24dee5299b525b389804cd"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e429299b525b389804e7"
+    },
+    {
+      "$oid": "5f24e43e299b525b389804e8"
+    },
+    {
+      "$oid": "5f24e458299b525b389804e9"
+    }
+  ],
+  "viewable": true,
+  "name": "Alba Milne",
+  "email": "alba_milne@mail.com",
+  "mobile": 96771711,
+  "nric": "S8016752Z",
+  "agent": {
+    "$oid": "5f24db3e299b525b389804c1"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24df26299b525b389804ce"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e468299b525b389804ea"
+    },
+    {
+      "$oid": "5f24e47a299b525b389804eb"
+    }
+  ],
+  "viewable": true,
+  "name": "Elsie-Rose Blaese",
+  "email": "elsie-Rose_blaese@mail.com",
+  "mobile": 91568738,
+  "nric": "S7422780Z",
+  "agent": {
+    "$oid": "5f24db3e299b525b389804c1"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24df6e299b525b389804cf"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e487299b525b389804ec"
+    }
+  ],
+  "viewable": true,
+  "name": "Elvis Gilmour",
+  "email": "elvis_gilmour@mail.com",
+  "mobile": 90791868,
+  "nric": "S5741893Z",
+  "agent": {
+    "$oid": "5f24db3e299b525b389804c1"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24dfbc299b525b389804d0"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e4bf299b525b389804ed"
+    },
+    {
+      "$oid": "5f24e4cb299b525b389804ee"
+    }
+  ],
+  "viewable": true,
+  "name": "Lacy Todd",
+  "email": "lacy_todd@mail.com",
+  "mobile": 84028164,
+  "nric": "S1858688Z",
+  "agent": {
+    "$oid": "5f24db13299b525b389804c0"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24dfed299b525b389804d1"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e4e4299b525b389804ef"
+    }
+  ],
+  "viewable": true,
+  "name": "Scarlet Hunter",
+  "email": "scarlet_hunter@mail.com",
+  "mobile": 83886841,
+  "nric": "S1481718Z",
+  "agent": {
+    "$oid": "5f24db13299b525b389804c0"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24e039299b525b389804d2"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e50b299b525b389804f0"
+    }
+  ],
+  "viewable": true,
+  "name": "Jai Quintero",
+  "email": "jai_quintero@mail.com",
+  "mobile": 90157343,
+  "nric": "S6277584Z",
+  "agent": {
+    "$oid": "5f24db63299b525b389804c2"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24e070299b525b389804d3"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e574299b525b389804f1"
+    },
+    {
+      "$oid": "5f24e583299b525b389804f2"
+    },
+    {
+      "$oid": "5f24e591299b525b389804f3"
+    }
+  ],
+  "viewable": true,
+  "name": "Alaina Robin",
+  "email": "alaina_robin@mail.com",
+  "mobile": 84961195,
+  "nric": "S9645314Z",
+  "agent": {
+    "$oid": "5f24dbac299b525b389804c3"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24e07d299b525b389804d4"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e5a0299b525b389804f4"
+    },
+    {
+      "$oid": "5f24e5ab299b525b389804f5"
+    }
+  ],
+  "viewable": true,
+  "name": "Cillian Lam",
+  "email": "cillian_lam@mail.com",
+  "mobile": 91197114,
+  "nric": "S3659079Z",
+  "agent": {
+    "$oid": "5f24dbac299b525b389804c3"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24e08f299b525b389804d5"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e5bc299b525b389804f6"
+    }
+  ],
+  "viewable": true,
+  "name": "Eva Wickens",
+  "email": "eva_wickens@mail.com",
+  "mobile": 93526644,
+  "nric": "S2278818Z",
+  "agent": {
+    "$oid": "5f24dbac299b525b389804c3"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24e0c0299b525b389804d6"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e60c299b525b389804f9"
+    }
+  ],
+  "viewable": true,
+  "name": "Sammy-Jo Burch",
+  "email": "sammy-Jo_burch@mail.com",
+  "mobile": 93752168,
+  "nric": "S8876469Z",
+  "agent": {
+    "$oid": "5f24dbf1299b525b389804c5"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24e0cc299b525b389804d7"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e5ef299b525b389804f7"
+    },
+    {
+      "$oid": "5f24e5fb299b525b389804f8"
+    }
+  ],
+  "viewable": true,
+  "name": "Alba Milne",
+  "email": "alba_milne@mail.com",
+  "mobile": 96771711,
+  "nric": "S8016752Z",
+  "agent": {
+    "$oid": "5f24dbf1299b525b389804c5"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24e0f2299b525b389804d8"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e641299b525b389804fa"
+    }
+  ],
+  "viewable": true,
+  "name": "Elsie-Rose Blaese",
+  "email": "elsie-Rose_blaese@mail.com",
+  "mobile": 91568738,
+  "nric": "S7422780Z",
+  "agent": {
+    "$oid": "5f24dbcc299b525b389804c4"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24e128299b525b389804d9"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e6de299b525b389804fd"
+    }
+  ],
+  "viewable": true,
+  "name": "Elvis Gilmour",
+  "email": "elvis_gilmour@mail.com",
+  "mobile": 90791868,
+  "nric": "S5741893Z",
+  "agent": {
+    "$oid": "5f24dc7d299b525b389804c7"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24e145299b525b389804da"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e6bb299b525b389804fb"
+    },
+    {
+      "$oid": "5f24e6cd299b525b389804fc"
+    }
+  ],
+  "viewable": true,
+  "name": "Alaina Robin",
+  "email": "alaina_robin@mail.com",
+  "mobile": 84961195,
+  "nric": "S9645314Z",
+  "agent": {
+    "$oid": "5f24dc7d299b525b389804c7"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24e173299b525b389804db"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e703299b525b389804fe"
+    }
+  ],
+  "viewable": true,
+  "name": "Cillian Lam",
+  "email": "cillian_lam@mail.com",
+  "mobile": 91197114,
+  "nric": "S3659079Z",
+  "agent": {
+    "$oid": "5f24dc5e299b525b389804c6"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5f24e193299b525b389804dc"
+  },
+  "policy": [
+    {
+      "$oid": "5f24e756299b525b389804ff"
+    }
+  ],
+  "viewable": true,
+  "name": "Eva Wickens",
+  "email": "eva_wickens@mail.com",
+  "mobile": 93526644,
+  "nric": "S2278818Z",
+  "agent": {
+    "$oid": "5f24dcdb299b525b389804c8"
+  },
+  "__v": 0
+}]
