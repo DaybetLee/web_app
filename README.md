@@ -1,6 +1,6 @@
 ## My School Assignment 3
 
-This is my third application demo for my school assignment. The main requirement is to create a web application involving Node.js.
+This is my second application demo for my school assignment. The main requirement is to create a web application involving Node.js.
 
 Here are the functionalities associated with the application:
 
