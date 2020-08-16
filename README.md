@@ -1,68 +1,38 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## My School Assignment 3
 
-## Available Scripts
+This is my third application demo for my school assignment. The main requirement is to create a web application involving Node.js.
 
-In the project directory, you can run:
+Here are the functionalities associated with the application:
 
-### `npm start`
+To create an Insurance Policy Management Portal, where member insurance agent can maintain and manage their client’s profile in this website. The client may also log on to this website to have an overview of their insurance coverage from various insurance companies. The web master, may upon request from any lawyer or government authorities to send a link to the client’s administrator with client’s name and authority reference (court order number or death certificate number) and all the policies that the client held. Note that this portal is NOT a document repository.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Specify and construct this portal using a combination of HTML, CSS, JavaScript and any backing store you desire (e.g. a database).
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Everyone may take up many insurance policies and they are usually not from only one insurance company. When there is a need for such claims, the administrator is usually not be the policy holder. In view of security, only the insurance agent may know the details. Unfortunately, most of the time, the agent may have left the insurance company or even the insurance field!
 
-### `npm test`
+As such, a portal that can track one’s insurance policies is exceptionally important.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+For the participating insurance company administrator, they wish to ….
+- Register their agents to the site
+- update their agent profile including contact
+- in the event an agent resigned, update the contact of next agent taking over and seek the policy owner to grant view rights to the new agent
 
-### `npm run build`
+For the insurance agents, they wish to …
+- maintain a list of insurance policies he had closed
+- able to view the policies of his clients that is under his care only or given rights to access if he has taken over cases from another agent (but must be from same company).
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+For the policy owner, he wishes to ...
+- Register himself to be a member to the site
+- View his insurance profile (with selection options on insurance companies)
+- Grant access rights to new agent taking over or just reject with reason
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+For Web Master, he wishes to …
+- Inform insurance companies of the note of disclosure
+- Provide a link to view the requested insurance profile
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+For the claimant administrator, he wish to …
+- Receive the link that contains all the policies the claimant’s beneficiary is entitled to claim
 
-### `npm run eject`
+### `Running the Application`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Please refer to the deployment guide for installing the neccessaries to run the demo. 
